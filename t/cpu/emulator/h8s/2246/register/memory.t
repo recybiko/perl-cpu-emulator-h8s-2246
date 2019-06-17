@@ -38,4 +38,7 @@ is $memory->read8(0), 0xFE, 'right value';
 is $memory->write64(0, 0x1234_ABCD_FEDC_9876)->read64(0),
   0x1234_ABCD_FEDC_9876, 'right value';
 
+is $memory->from_string(pack('N', 0x12AB_34CD))->read32(0), 0x12AB_34CD,
+  'right value';
+
 done_testing;

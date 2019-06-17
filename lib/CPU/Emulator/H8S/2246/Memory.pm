@@ -15,6 +15,15 @@ sub from_file {
   return $self;
 }
 
+sub from_string {
+  my ($self, $string) = @_;
+
+  my $bytes = $self->bytes;
+  $$bytes = $string;
+
+  return $self;
+}
+
 sub read16 {
   my ($self, $offset) = @_;
   my $bytes = $self->bytes;
@@ -115,6 +124,12 @@ and implements the following new ones.
   $memory = $memory->from_file($path);
 
 Loads the specified file into C<bytes>.
+
+=head2 from_string
+
+  $memory = $memory->from_string($string);
+
+Loads the string into C<bytes>.
 
 =head2 read16
 
