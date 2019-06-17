@@ -1,12 +1,14 @@
 package CPU::Emulator::H8S::2246;
 use Mojo::Base '-base';
 
+use CPU::Emulator::H8S::2246::Memory;
 use CPU::Emulator::H8S::2246::Register::ConditionCode;
 use CPU::Emulator::H8S::2246::Register::General;
 
 use Mojo::Collection 'c';
 
 has ccr => sub { CPU::Emulator::H8S::2246::Register::ConditionCode->new };
+has memory => sub { CPU::Emulator::H8S::2246::Memory->new };
 
 has registers => sub {c(
   map { CPU::Emulator::H8S::2246::Register::General->new } 0 .. 7
@@ -42,6 +44,13 @@ L<CPU::Emulator::H8S::2246> implements the following attributes.
 
 Condition Code Register for the CPU, defaults to a
 L<CPU::Emulator::H8S::2246::Register::ConditionCode> object.
+
+=head2 memory
+
+  my $memory = $cpu->memory;
+  $memory = $cpu->memory(CPU::Emulator::H8S::2246::Memory->new);
+
+Memory for the CPU, defaults to a L<CPU::Emulator::H8S::2246::Memory> object.
 
 =head2 registers
 
