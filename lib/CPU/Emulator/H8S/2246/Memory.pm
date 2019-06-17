@@ -1,6 +1,10 @@
 package CPU::Emulator::H8S::2246::Memory;
 use Mojo::Base '-base';
 
+use Mojo::ByteStream;
+
+has bytes => sub { Mojo::ByteStream->new };
+
 1;
 
 =encoding utf8
@@ -18,6 +22,17 @@ CPU::Emulator::H8S::2246::Memory - Memory for the H8S/2246 CPU
 =head1 DESCRIPTION
 
 L<CPU::Emulator::H8S::2246::Memory> implements memory for the H8S/2246 CPU.
+
+=head1 ATTRIBUTES
+
+L<CPU::Emulator::H8S::2246::Memory> implements the following attributes.
+
+=head2 bytes
+
+  my $bytes = $memory->bytes;
+  $memory = $memory->bytes(Mojo::ByteStream->new);
+
+Memory values, defaults to a L<Mojo::ByteStream> object.
 
 =head1 METHODS
 

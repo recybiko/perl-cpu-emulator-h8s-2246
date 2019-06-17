@@ -7,4 +7,6 @@ use CPU::Emulator::H8S::2246::Memory;
 my $memory = CPU::Emulator::H8S::2246::Memory->new;
 isa_ok $memory, 'CPU::Emulator::H8S::2246::Memory';
 
+isa_ok $memory->bytes, 'Mojo::ByteStream';
+
 done_testing;
