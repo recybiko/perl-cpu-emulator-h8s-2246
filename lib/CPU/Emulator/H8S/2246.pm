@@ -1,9 +1,12 @@
 package CPU::Emulator::H8S::2246;
 use Mojo::Base '-base';
 
+use CPU::Emulator::H8S::2246::Register::ConditionCode;
 use CPU::Emulator::H8S::2246::Register::General;
 
 use Mojo::Collection 'c';
+
+has ccr => sub { CPU::Emulator::H8S::2246::Register::ConditionCode->new };
 
 has registers => sub {c(
   map { CPU::Emulator::H8S::2246::Register::General->new } 0 .. 7
@@ -31,6 +34,14 @@ as found in the Cybiko Classic.
 =head1 ATTRIBUTES
 
 L<CPU::Emulator::H8S::2246> implements the following attributes.
+
+=head2 ccr
+
+  my $ccr = $cpu->ccr;
+  $cpu = $cpu->ccr(CPU::Emulator::H8S::2246::Register::ConditionCode->new);
+
+Condition Code Register for the CPU, defaults to a
+L<CPU::Emulator::H8S::2246::Register::ConditionCode> object.
 
 =head2 registers
 
