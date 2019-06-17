@@ -20,4 +20,13 @@ is $register->read32, 0x0000_FFFF, 'right value';
 is $register->write16l(0)->read16l, 0, 'right value';
 is $register->read32, 0, 'right value';
 
+is $register->write8h(0xFF)->read8h, 0xFF, 'right value';
+is $register->read32, 0x0000_FF00, 'right value';
+is $register->write8l(0xFF)->read8l, 0xFF, 'right value';
+is $register->read32, 0x0000_FFFF, 'right value';
+is $register->write8h(0)->read8h, 0, 'right value';
+is $register->read32, 0x0000_00FF, 'right value';
+is $register->write8l(0)->read8l, 0, 'right value';
+is $register->read32, 0, 'right value';
+
 done_testing;

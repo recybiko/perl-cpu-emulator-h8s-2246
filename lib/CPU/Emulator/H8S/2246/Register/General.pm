@@ -21,6 +21,18 @@ sub read32 {
   return $value;
 }
 
+sub read8h {
+  my $self = shift;
+  my $value = ($self->_value >> 8) & 0xFF;
+  return $value;
+}
+
+sub read8l {
+  my $self = shift;
+  my $value = $self->_value & 0xFF;
+  return $value;
+}
+
 sub write16h {
   my ($self, $value) = @_;
   $value = ($value << 16) & 0xFFFF_0000;
@@ -41,6 +53,22 @@ sub write32 {
   my ($self, $value) = @_;
   $value = $value & 0xFFFF_FFFF;
   return $self->_value($value);;
+}
+
+sub write8h {
+  my ($self, $value) = @_;
+  $value = ($value << 8) & 0xFF00;
+  my $masked_value = $self->_value & 0x00FF;
+  my $new_value = $masked_value | $value;
+  return $self->_value($new_value);
+}
+
+sub write8l {
+  my ($self, $value) = @_;
+  $value = $value & 0xFF;
+  my $masked_value = $self->_value & 0xFF00;
+  my $new_value = $masked_value | $value;
+  return $self->_value($new_value);
 }
 
 1;
@@ -87,6 +115,18 @@ Returns the lowest 2 bytes (16 bits) of the register.
 
 Returns the lowest 4 bytes (32 bits) of the register.
 
+=head2 read8h
+
+  my $value = $register->read8h;
+
+Returns the second lowest byte (8 bits) of the register.
+
+=head2 read8l
+
+  my $value = $register->read8l;
+
+Returns the lowest byte (8 bits) of the register.
+
 =head2 write16h
 
   my $register = $register->write16h(1024);
@@ -106,6 +146,20 @@ bytes (16 bits) of the register.
   my $register = $register->write32(1024);
 
 Writes the lowest 4 bytes (32 bits) of the provided value to the register.
+
+=head2 write8h
+
+  my $register = $register->write8h(128);
+
+Writes the lowest byte (8 bits) of the provided value to the second lowest
+byte (8 bits) of the register.
+
+=head2 write8l
+
+  my $register = $register->write8l(128);
+
+Writes the lowest byte (8 bits) of the provided value to the lowest byte
+(8 bits) of the register.
 
 =head1 SEE ALSO
 
