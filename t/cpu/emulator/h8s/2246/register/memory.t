@@ -24,4 +24,13 @@ is $memory->read8(1), 0x34, 'right value';
 is $memory->read8(2), 0xAB, 'right value';
 is $memory->read8(3), 0xCD, 'right value';
 
+$memory->write16(0, 0xABCD);
+is $memory->read16(0), 0xABCD, 'right value';
+
+$memory->write32(0, 0x2345_BCDE);
+is $memory->read32(0), 0x2345_BCDE, 'right value';
+
+$memory->write8(0, 0xFE);
+is $memory->read8(0), 0xFE, 'right value';
+
 done_testing;

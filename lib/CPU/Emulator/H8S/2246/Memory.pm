@@ -33,6 +33,33 @@ sub read8 {
   return unpack('C', substr $$bytes, $offset, 1);
 }
 
+sub write16 {
+  my ($self, $offset, $value) = @_;
+
+  my $bytes = $self->bytes;
+  substr $$bytes, $offset, 2, pack('S>', $value);
+
+  return $self;
+}
+
+sub write32 {
+  my ($self, $offset, $value) = @_;
+
+  my $bytes = $self->bytes;
+  substr $$bytes, $offset, 4, pack('N', $value);
+
+  return $self;
+}
+
+sub write8 {
+  my ($self, $offset, $value) = @_;
+
+  my $bytes = $self->bytes;
+  substr $$bytes, $offset, 1, pack('C', $value);
+
+  return $self;
+}
+
 1;
 
 =encoding utf8
@@ -91,6 +118,24 @@ Returns the 4 byte (32 bit) value at the specified memory offset.
   my $value = $memory->read8($offset);
 
 Returns the byte (8 bit) value at the specified memory offset.
+
+=head2 write16
+
+  $memory = $memory->write16($offset, $value);
+
+Writes the 2 byte (16 bit) value to the specified memory offset.
+
+=head2 write32
+
+  $memory = $memory->write32($offset, $value);
+
+Writes the 4 byte (32 bit) value to the specified memory offset.
+
+=head2 write8
+
+  $memory = $memory->write8($offset, $value);
+
+Writes the byte (8 bit) value to the specified memory offset.
 
 =head1 SEE ALSO
 
