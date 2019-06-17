@@ -6,6 +6,8 @@ use CPU::Emulator::H8S::2246::Memory;
 
 use Mojo::File 'tempfile';
 
+no warnings 'portable';
+
 my $memory = CPU::Emulator::H8S::2246::Memory->new;
 isa_ok $memory, 'CPU::Emulator::H8S::2246::Memory';
 
@@ -32,5 +34,8 @@ is $memory->read32(0), 0x2345_BCDE, 'right value';
 
 $memory->write8(0, 0xFE);
 is $memory->read8(0), 0xFE, 'right value';
+
+is $memory->write64(0, 0x1234_ABCD_FEDC_9876)->read64(0),
+  0x1234_ABCD_FEDC_9876, 'right value';
 
 done_testing;

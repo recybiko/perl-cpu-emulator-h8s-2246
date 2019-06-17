@@ -27,6 +27,12 @@ sub read32 {
   return unpack('N', substr $$bytes, $offset, 4);
 }
 
+sub read64 {
+  my ($self, $offset) = @_;
+  my $bytes = $self->bytes;
+  return unpack('Q>', substr $$bytes, $offset, 8);
+}
+
 sub read8 {
   my ($self, $offset) = @_;
   my $bytes = $self->bytes;
@@ -47,6 +53,15 @@ sub write32 {
 
   my $bytes = $self->bytes;
   substr $$bytes, $offset, 4, pack('N', $value);
+
+  return $self;
+}
+
+sub write64 {
+  my ($self, $offset, $value) = @_;
+
+  my $bytes = $self->bytes;
+  substr $$bytes, $offset, 8, pack('Q>', $value);
 
   return $self;
 }
@@ -113,6 +128,12 @@ Returns the 2 byte (16 bit) value at the specified memory offset.
 
 Returns the 4 byte (32 bit) value at the specified memory offset.
 
+=head2 read64
+
+  my $value = $memory->read64($offset);
+
+Returns the 8 byte (64 bit) value at the specified memory offset.
+
 =head2 read8
 
   my $value = $memory->read8($offset);
@@ -130,6 +151,12 @@ Writes the 2 byte (16 bit) value to the specified memory offset.
   $memory = $memory->write32($offset, $value);
 
 Writes the 4 byte (32 bit) value to the specified memory offset.
+
+=head2 write64
+
+  $memory = $memory->write64($offset, $value);
+
+Writes the 8 byte (64 bit) value to the specified memory offset.
 
 =head2 write8
 
