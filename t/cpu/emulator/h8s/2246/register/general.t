@@ -11,4 +11,13 @@ is $register->read32, '0', 'right value';
 is $register->write32(0xFFFF_FFFF)->read32, 0xFFFF_FFFF, 'right value';
 is $register->write32(0)->read32, 0, 'right value';
 
+is $register->write16h(0xFFFF)->read16h, 0xFFFF, 'right value';
+is $register->read32, 0xFFFF_0000, 'right value';
+is $register->write16l(0xFFFF)->read16l, 0xFFFF, 'right value';
+is $register->read32, 0xFFFF_FFFF, 'right value';
+is $register->write16h(0)->read16h, 0, 'right value';
+is $register->read32, 0x0000_FFFF, 'right value';
+is $register->write16l(0)->read16l, 0, 'right value';
+is $register->read32, 0, 'right value';
+
 done_testing;
