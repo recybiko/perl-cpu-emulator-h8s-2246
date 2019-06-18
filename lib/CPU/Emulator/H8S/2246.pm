@@ -17,6 +17,15 @@ has registers => sub {c(
   map { CPU::Emulator::H8S::2246::Register::General->new } 0 .. 7
 )};
 
+sub reset {
+  my $self = shift;
+
+  my $address = $self->memory->read32($self->reset_address);
+  $self->instruction_address($address);
+
+  return $self;
+}
+
 1;
 
 =encoding utf8
@@ -81,7 +90,15 @@ The address of the address of the first instruction, defaults to 0.
 
 =head1 METHODS
 
-L<CPU::Emulator::H8S::2246> inherits all methods from L<Mojo::Base>.
+L<CPU::Emulator::H8S::2246> inherits all methods from L<Mojo::Base> and
+implements the following new ones.
+
+=head2 reset
+
+  $cpu = $cpu->reset;
+
+Resets the CPU by setting the C<instruction_address> to the address stored at
+C<reset_address>.
 
 =head1 SEE ALSO
 

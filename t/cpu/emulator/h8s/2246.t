@@ -17,4 +17,7 @@ isa_ok $cpu->memory, 'CPU::Emulator::H8S::2246::Memory';
 is $cpu->instruction_address, 0, 'right value';
 is $cpu->reset_address, 0, 'right value';
 
+$cpu->memory->from_string(pack('N', 4));
+is $cpu->reset->instruction_address, 4, 'right value';
+
 done_testing;
