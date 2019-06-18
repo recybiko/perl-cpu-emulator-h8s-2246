@@ -26,6 +26,40 @@ sub reset {
   return $self;
 }
 
+sub step {
+  my $self = shift;
+
+  state $handler_for = &_handlers;
+
+  my $bytes = $self->_instruction;
+  my $handlers = $handler_for->map(sub {
+    my $masked_value = $bytes & $_->{mask};
+    my $handler = $_->{handler_for}{$masked_value};
+    return $handler // ();
+  });
+  die 'No handler found' unless $handlers->size;
+  die 'Matched multiple handlers' if $handlers->size > 1;
+  $handlers->first->($self, $bytes);
+
+  return $self;
+}
+
+sub _handlers {
+  my $self = shift;
+
+  return c(
+  );
+}
+
+sub _instruction {
+  my $self = shift;
+
+  my $bytes = $self->memory->read64($self->instruction_address);
+  return $bytes if defined $bytes;
+
+  die 'Unable to fetch instruction';
+}
+
 1;
 
 =encoding utf8
@@ -99,6 +133,12 @@ implements the following new ones.
 
 Resets the CPU by setting the C<instruction_address> to the address stored at
 C<reset_address>.
+
+=head2 step
+
+  $cpu = $cpu->step;
+
+Fetches and processes the next instruction.
 
 =head1 SEE ALSO
 
