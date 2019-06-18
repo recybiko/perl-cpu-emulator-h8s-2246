@@ -5,7 +5,11 @@ use CPU::Emulator::H8S::2246::Memory;
 use CPU::Emulator::H8S::2246::Register::ConditionCode;
 use CPU::Emulator::H8S::2246::Register::General;
 
+use Carp 'croak';
 use Mojo::Collection 'c';
+use Mojo::Util 'monkey_patch';
+
+no warnings 'portable';
 
 has instruction_address => 0;
 has reset_address => 0;
@@ -16,6 +20,19 @@ has memory => sub { CPU::Emulator::H8S::2246::Memory->new };
 has registers => sub {c(
   map { CPU::Emulator::H8S::2246::Register::General->new } 0 .. 7
 )};
+
+foreach my $name (qw[
+  add_b_rs_rd
+  add_b_xx8_rd
+  add_l_ers_erd
+  add_l_xx32_erd
+  add_w_rs_rd
+  add_w_xx16_rd
+]) {
+  monkey_patch __PACKAGE__, "_op_$name", sub {
+    croak "STUB: $name";
+  };
+}
 
 sub reset {
   my $self = shift;
@@ -47,8 +64,33 @@ sub step {
 sub _handlers {
   my $self = shift;
 
-  return c(
-  );
+  return c({
+    mask => 0xF000_0000_0000_0000,
+    handler_for => {
+      0x8000_0000_0000_0000 => \&_op_add_b_xx8_rd,
+    },
+  }, {
+    mask => 0xFF00_0000_0000_0000,
+    handler_for => {
+      0x0800_0000_0000_0000 => \&_op_add_b_rs_rd,
+      0x0900_0000_0000_0000 => \&_op_add_w_rs_rd,
+    },
+  }, {
+    mask => 0xFF88_0000_0000_0000,
+    handler_for => {
+      0x0A80_0000_0000_0000 => \&_op_add_l_ers_erd,
+    },
+  }, {
+    mask => 0xFFF0_0000_0000_0000,
+    handler_for => {
+      0x7910_0000_0000_0000 => \&_op_add_w_xx16_rd,
+    },
+  }, {
+    mask => 0xFFF8_0000_0000_0000,
+    handler_for => {
+      0x7A10_0000_0000_0000 => \&_op_add_l_xx32_erd,
+    },
+  });
 }
 
 sub _instruction {
