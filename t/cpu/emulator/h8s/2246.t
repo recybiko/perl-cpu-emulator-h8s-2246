@@ -47,4 +47,15 @@ subtest 'ADD' => sub {
   };
 };
 
+subtest 'ADDS' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x0B, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: adds_l_1_erd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x0B, 0x80));
+  throws_ok { $cpu->reset->step } qr/STUB: adds_l_2_erd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x0B, 0x90));
+  throws_ok { $cpu->reset->step } qr/STUB: adds_l_4_erd/, 'right error';
+};
+
 done_testing;
