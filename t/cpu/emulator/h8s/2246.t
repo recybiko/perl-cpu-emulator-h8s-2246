@@ -14,4 +14,7 @@ isa_ok $cpu->registers->[0], 'CPU::Emulator::H8S::2246::Register::General';
 isa_ok $cpu->ccr, 'CPU::Emulator::H8S::2246::Register::ConditionCode';
 isa_ok $cpu->memory, 'CPU::Emulator::H8S::2246::Memory';
 
+is $cpu->instruction_address, 0, 'right value';
+is $cpu->reset_address, 0, 'right value';
+
 done_testing;

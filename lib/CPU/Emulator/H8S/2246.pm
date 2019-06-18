@@ -7,6 +7,9 @@ use CPU::Emulator::H8S::2246::Register::General;
 
 use Mojo::Collection 'c';
 
+has instruction_address => 0;
+has reset_address => 0;
+
 has ccr => sub { CPU::Emulator::H8S::2246::Register::ConditionCode->new };
 has memory => sub { CPU::Emulator::H8S::2246::Memory->new };
 
@@ -45,6 +48,13 @@ L<CPU::Emulator::H8S::2246> implements the following attributes.
 Condition Code Register for the CPU, defaults to a
 L<CPU::Emulator::H8S::2246::Register::ConditionCode> object.
 
+=head2 instruction_address
+
+  my $address = $cpu->instruction_address;
+  $cpu = $cpu->instruction_address(0);
+
+The address of the next instruction, defaults to 0.
+
 =head2 memory
 
   my $memory = $cpu->memory;
@@ -61,6 +71,13 @@ Memory for the CPU, defaults to a L<CPU::Emulator::H8S::2246::Memory> object.
 
 General registers, defaults to a L<Mojo::Collection> of 8
 L<CPU::Emulator::H8S::2246::Register::General> objects.
+
+=head2 reset_address
+
+  my $address = $cpu->reset_address;
+  $cpu = $cpu->reset_address(0);
+
+The address of the address of the first instruction, defaults to 0.
 
 =head1 METHODS
 
