@@ -58,4 +58,12 @@ subtest 'ADDS' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: adds_l_4_erd/, 'right error';
 };
 
+subtest 'ADDX' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x90, 0xFF));
+  throws_ok { $cpu->reset->step } qr/STUB: addx_b_xx8_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x0E, 0x08));
+  throws_ok { $cpu->reset->step } qr/STUB: addx_b_rs_rd/, 'right error';
+};
+
 done_testing;
