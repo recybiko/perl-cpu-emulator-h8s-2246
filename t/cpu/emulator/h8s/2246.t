@@ -66,4 +66,24 @@ subtest 'ADDX' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: addx_b_rs_rd/, 'right error';
 };
 
+subtest 'AND' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0xE0, 0xFF));
+  throws_ok { $cpu->reset->step } qr/STUB: and_b_xx8_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x16, 0x08));
+  throws_ok { $cpu->reset->step } qr/STUB: and_b_rs_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x79, 0x60, 0xFFFF));
+  throws_ok { $cpu->reset->step } qr/STUB: and_w_xx16_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x66, 0x08));
+  throws_ok { $cpu->reset->step } qr/STUB: and_w_rs_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2N', 4, 0x7A, 0x60, 0xFFFF_FFFF));
+  throws_ok { $cpu->reset->step } qr/STUB: and_l_xx32_erd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0xF0, 0x66, 0x01));
+  throws_ok { $cpu->reset->step } qr/STUB: and_l_ers_erd/, 'right error';
+};
+
 done_testing;
