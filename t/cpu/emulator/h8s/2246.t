@@ -86,4 +86,12 @@ subtest 'AND' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: and_l_ers_erd/, 'right error';
 };
 
+subtest 'ANDC' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x06, 0xFF));
+  throws_ok { $cpu->reset->step } qr/STUB: andc_b_xx8_ccr/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x41, 0x06, 0xFF));
+  throws_ok { $cpu->reset->step } qr/STUB: andc_b_xx8_exr/, 'right error';
+};
+
 done_testing;
