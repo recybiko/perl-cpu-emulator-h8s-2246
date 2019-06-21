@@ -41,6 +41,11 @@ foreach my $name (qw[
   and_w_xx16_rd
   andc_b_xx8_ccr
   andc_b_xx8_exr
+  band_b_xx3_Aaa16
+  band_b_xx3_Aaa32
+  band_b_xx3_Aaa8
+  band_b_xx3_Aerd
+  band_b_xx3_rd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -95,9 +100,24 @@ sub _handlers {
       0x6600_0000_0000_0000 => \&_op_and_w_rs_rd,
     },
   }, {
+    mask => 0xFF00_FF8F_0000_0000,
+    handler_for => {
+      0x7E00_7600_0000_0000 => \&_op_band_b_xx3_Aaa8,
+    },
+  }, {
+    mask => 0xFF80_0000_0000_0000,
+    handler_for => {
+      0x7600_0000_0000_0000 => \&_op_band_b_xx3_rd,
+    },
+  }, {
     mask => 0xFF88_0000_0000_0000,
     handler_for => {
       0x0A80_0000_0000_0000 => \&_op_add_l_ers_erd,
+    },
+  }, {
+    mask => 0xFF8F_FF8F_0000_0000,
+    handler_for => {
+      0x7C00_7600_0000_0000 => \&_op_band_b_xx3_Aerd,
     },
   }, {
     mask => 0xFFF0_0000_0000_0000,
@@ -113,6 +133,16 @@ sub _handlers {
       0x0B90_0000_0000_0000 => \&_op_adds_l_4_erd,
       0x7A10_0000_0000_0000 => \&_op_add_l_xx32_erd,
       0x7A60_0000_0000_0000 => \&_op_and_l_xx32_erd,
+    },
+  }, {
+    mask => 0xFFFF_0000_0000_FF8F,
+    handler_for => {
+      0x6A30_0000_0000_7600 => \&_op_band_b_xx3_Aaa32,
+    },
+  }, {
+    mask => 0xFFFF_0000_FF8F_0000,
+    handler_for => {
+      0x6A10_0000_7600_0000 => \&_op_band_b_xx3_Aaa16,
     },
   }, {
     mask => 0xFFFF_FF00_0000_0000,

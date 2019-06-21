@@ -94,4 +94,21 @@ subtest 'ANDC' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: andc_b_xx8_exr/, 'right error';
 };
 
+subtest 'BAND' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x76, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: band_b_xx3_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x7C, 0x00, 0x76, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: band_b_xx3_Aerd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x7E, 0, 0x76, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: band_b_xx3_Aaa8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2 S C2', 4, 0x6A, 0x10, 0xFFFF, 0x76, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: band_b_xx3_Aaa16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2NC2', 4, 0x6A, 0x30, 0, 0x76, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: band_b_xx3_Aaa32/, 'right error';
+};
+
 done_testing;
