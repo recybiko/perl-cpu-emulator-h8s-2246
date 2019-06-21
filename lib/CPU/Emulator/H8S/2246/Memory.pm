@@ -38,8 +38,8 @@ sub read32 {
 
 sub read64 {
   my ($self, $offset) = @_;
-  my $bytes = $self->bytes;
-  return unpack('Q>', substr $$bytes, $offset, 8);
+  my $bytes = unpack("x${offset}a8", ${$self->bytes});
+  return unpack 'Q>', pack('a8', $bytes);
 }
 
 sub read8 {
