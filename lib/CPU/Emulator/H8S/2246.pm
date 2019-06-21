@@ -46,6 +46,38 @@ foreach my $name (qw[
   band_b_xx3_Aaa8
   band_b_xx3_Aerd
   band_b_xx3_rd
+  bcc_bcc_d16
+  bcc_bcc_d8
+  bcc_bcs_d16
+  bcc_bcs_d8
+  bcc_beq_d16
+  bcc_beq_d8
+  bcc_bge_d16
+  bcc_bge_d8
+  bcc_bgt_d16
+  bcc_bgt_d8
+  bcc_bhi_d16
+  bcc_bhi_d8
+  bcc_ble_d16
+  bcc_ble_d8
+  bcc_bls_d16
+  bcc_bls_d8
+  bcc_blt_d16
+  bcc_blt_d8
+  bcc_bmi_d16
+  bcc_bmi_d8
+  bcc_bne_d16
+  bcc_bne_d8
+  bcc_bpl_d16
+  bcc_bpl_d8
+  bcc_bra_d16
+  bcc_bra_d8
+  bcc_brn_d16
+  bcc_brn_d8
+  bcc_bvc_d16
+  bcc_bvc_d8
+  bcc_bvs_d16
+  bcc_bvs_d8
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -97,6 +129,22 @@ sub _handlers {
       0x0900_0000_0000_0000 => \&_op_add_w_rs_rd,
       0x0E00_0000_0000_0000 => \&_op_addx_b_rs_rd,
       0x1600_0000_0000_0000 => \&_op_and_b_rs_rd,
+      0x4000_0000_0000_0000 => \&_op_bcc_bra_d8,
+      0x4100_0000_0000_0000 => \&_op_bcc_brn_d8,
+      0x4200_0000_0000_0000 => \&_op_bcc_bhi_d8,
+      0x4300_0000_0000_0000 => \&_op_bcc_bls_d8,
+      0x4400_0000_0000_0000 => \&_op_bcc_bcc_d8,
+      0x4500_0000_0000_0000 => \&_op_bcc_bcs_d8,
+      0x4600_0000_0000_0000 => \&_op_bcc_bne_d8,
+      0x4700_0000_0000_0000 => \&_op_bcc_beq_d8,
+      0x4800_0000_0000_0000 => \&_op_bcc_bvc_d8,
+      0x4900_0000_0000_0000 => \&_op_bcc_bvs_d8,
+      0x4A00_0000_0000_0000 => \&_op_bcc_bpl_d8,
+      0x4B00_0000_0000_0000 => \&_op_bcc_bmi_d8,
+      0x4C00_0000_0000_0000 => \&_op_bcc_bge_d8,
+      0x4D00_0000_0000_0000 => \&_op_bcc_blt_d8,
+      0x4E00_0000_0000_0000 => \&_op_bcc_bgt_d8,
+      0x4F00_0000_0000_0000 => \&_op_bcc_ble_d8,
       0x6600_0000_0000_0000 => \&_op_and_w_rs_rd,
     },
   }, {
@@ -133,6 +181,26 @@ sub _handlers {
       0x0B90_0000_0000_0000 => \&_op_adds_l_4_erd,
       0x7A10_0000_0000_0000 => \&_op_add_l_xx32_erd,
       0x7A60_0000_0000_0000 => \&_op_and_l_xx32_erd,
+    },
+  }, {
+    mask => 0xFFFF_0000_0000_0000,
+    handler_for => {
+      0x5800_0000_0000_0000 => \&_op_bcc_bra_d16,
+      0x5810_0000_0000_0000 => \&_op_bcc_brn_d16,
+      0x5820_0000_0000_0000 => \&_op_bcc_bhi_d16,
+      0x5830_0000_0000_0000 => \&_op_bcc_bls_d16,
+      0x5840_0000_0000_0000 => \&_op_bcc_bcc_d16,
+      0x5850_0000_0000_0000 => \&_op_bcc_bcs_d16,
+      0x5860_0000_0000_0000 => \&_op_bcc_bne_d16,
+      0x5870_0000_0000_0000 => \&_op_bcc_beq_d16,
+      0x5880_0000_0000_0000 => \&_op_bcc_bvc_d16,
+      0x5890_0000_0000_0000 => \&_op_bcc_bvs_d16,
+      0x58A0_0000_0000_0000 => \&_op_bcc_bpl_d16,
+      0x58B0_0000_0000_0000 => \&_op_bcc_bmi_d16,
+      0x58C0_0000_0000_0000 => \&_op_bcc_bge_d16,
+      0x58D0_0000_0000_0000 => \&_op_bcc_blt_d16,
+      0x58E0_0000_0000_0000 => \&_op_bcc_bgt_d16,
+      0x58F0_0000_0000_0000 => \&_op_bcc_ble_d16,
     },
   }, {
     mask => 0xFFFF_0000_0000_FF8F,

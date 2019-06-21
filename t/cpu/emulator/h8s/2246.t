@@ -111,4 +111,104 @@ subtest 'BAND' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: band_b_xx3_Aaa32/, 'right error';
 };
 
+subtest 'Bcc d:16' => sub {
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0x40, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bcc_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0x50, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bcs_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0x70, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_beq_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0xC0, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bge_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0xE0, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bgt_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0x20, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bhi_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0xF0, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_ble_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0x30, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bls_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0xD0, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_blt_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0xB0, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bmi_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0x60, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bne_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0xA0, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bpl_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0x00, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bra_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0x10, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_brn_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0x80, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bvc_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x58, 0x90, 0x0000));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bvs_d16/, 'right error';
+};
+
+subtest 'Bcc d:8' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x44, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bcc_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x45, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bcs_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x47, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_beq_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x4C, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bge_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x4E, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bgt_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x42, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bhi_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x4F, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_ble_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x43, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bls_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x4D, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_blt_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x4B, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bmi_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x46, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bne_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x4A, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bpl_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x40, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bra_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x41, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_brn_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x48, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bvc_d8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x49, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: bcc_bvs_d8/, 'right error';
+};
+
 done_testing;
