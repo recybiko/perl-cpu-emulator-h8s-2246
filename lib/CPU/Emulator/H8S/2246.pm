@@ -145,6 +145,11 @@ foreach my $name (qw[
   bset_b_xx3_rd
   bsr_d16
   bsr_d8
+  bst_b_xx3_Aaa16
+  bst_b_xx3_Aaa32
+  bst_b_xx3_Aaa8
+  bst_b_xx3_Aerd
+  bst_b_xx3_rd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -235,6 +240,7 @@ sub _handlers {
       0x7E00_7680_0000_0000 => \&_op_biand_b_xx3_Aaa8,
       0x7E00_7700_0000_0000 => \&_op_bld_b_xx3_Aaa8,
       0x7E00_7780_0000_0000 => \&_op_bild_b_xx3_Aaa8,
+      0x7F00_6700_0000_0000 => \&_op_bst_b_xx3_Aaa8,
       0x7F00_6780_0000_0000 => \&_op_bist_b_xx3_Aaa8,
       0x7F00_7000_0000_0000 => \&_op_bset_b_xx3_Aaa8,
       0x7F00_7100_0000_0000 => \&_op_bnot_b_xx3_Aaa8,
@@ -243,6 +249,7 @@ sub _handlers {
   }, {
     mask => 0xFF80_0000_0000_0000,
     handler_for => {
+      0x6700_0000_0000_0000 => \&_op_bst_b_xx3_rd,
       0x6780_0000_0000_0000 => \&_op_bist_b_xx3_rd,
       0x7000_0000_0000_0000 => \&_op_bset_b_xx3_rd,
       0x7100_0000_0000_0000 => \&_op_bnot_b_xx3_rd,
@@ -277,6 +284,7 @@ sub _handlers {
       0x7C00_7680_0000_0000 => \&_op_biand_b_xx3_Aerd,
       0x7C00_7700_0000_0000 => \&_op_bld_b_xx3_Aerd,
       0x7C00_7780_0000_0000 => \&_op_bild_b_xx3_Aerd,
+      0x7D00_6700_0000_0000 => \&_op_bst_b_xx3_Aerd,
       0x7D00_6780_0000_0000 => \&_op_bist_b_xx3_Aerd,
       0x7D00_7000_0000_0000 => \&_op_bset_b_xx3_Aerd,
       0x7D00_7100_0000_0000 => \&_op_bnot_b_xx3_Aerd,
@@ -335,6 +343,7 @@ sub _handlers {
       0x6A30_0000_0000_7680 => \&_op_biand_b_xx3_Aaa32,
       0x6A30_0000_0000_7700 => \&_op_bld_b_xx3_Aaa32,
       0x6A30_0000_0000_7780 => \&_op_bild_b_xx3_Aaa32,
+      0x6A38_0000_0000_6700 => \&_op_bst_b_xx3_Aaa32,
       0x6A38_0000_0000_6780 => \&_op_bist_b_xx3_Aaa32,
       0x6A38_0000_0000_7000 => \&_op_bset_b_xx3_Aaa32,
       0x6A38_0000_0000_7100 => \&_op_bnot_b_xx3_Aaa32,
@@ -357,6 +366,7 @@ sub _handlers {
       0x6A10_0000_7680_0000 => \&_op_biand_b_xx3_Aaa16,
       0x6A10_0000_7700_0000 => \&_op_bld_b_xx3_Aaa16,
       0x6A10_0000_7780_0000 => \&_op_bild_b_xx3_Aaa16,
+      0x6A18_0000_6700_0000 => \&_op_bst_b_xx3_Aaa16,
       0x6A18_0000_6780_0000 => \&_op_bist_b_xx3_Aaa16,
       0x6A18_0000_7000_0000 => \&_op_bset_b_xx3_Aaa16,
       0x6A18_0000_7100_0000 => \&_op_bnot_b_xx3_Aaa16,

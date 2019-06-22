@@ -454,4 +454,23 @@ subtest 'BSR' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: bsr_d8/, 'right error';
 };
 
+subtest 'BST' => sub {
+  my @payload = (0x67, 0x00);
+
+  $cpu->memory->from_string(pack('NC2', 4, @payload));
+  throws_ok { $cpu->reset->step } qr/STUB: bst_b_xx3_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x7D, 0x00, @payload));
+  throws_ok { $cpu->reset->step } qr/STUB: bst_b_xx3_Aerd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x7F, 0, @payload));
+  throws_ok { $cpu->reset->step } qr/STUB: bst_b_xx3_Aaa8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>C2', 4, 0x6A, 0x18, 0, @payload));
+  throws_ok { $cpu->reset->step } qr/STUB: bst_b_xx3_Aaa16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2NC2', 4, 0x6A, 0x38, 0, @payload));
+  throws_ok { $cpu->reset->step } qr/STUB: bst_b_xx3_Aaa32/, 'right error';
+};
+
 done_testing;
