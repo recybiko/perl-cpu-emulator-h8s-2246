@@ -160,6 +160,11 @@ foreach my $name (qw[
   btst_b_xx3_Aaa8
   btst_b_xx3_Aerd
   btst_b_xx3_rd
+  bxor_b_xx3_Aaa16
+  bxor_b_xx3_Aaa32
+  bxor_b_xx3_Aaa8
+  bxor_b_xx3_Aerd
+  bxor_b_xx3_rd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -248,6 +253,7 @@ sub _handlers {
       0x7E00_7300_0000_0000 => \&_op_btst_b_xx3_Aaa8,
       0x7E00_7400_0000_0000 => \&_op_bor_b_xx3_Aaa8,
       0x7E00_7480_0000_0000 => \&_op_bior_b_xx3_Aaa8,
+      0x7E00_7500_0000_0000 => \&_op_bxor_b_xx3_Aaa8,
       0x7E00_7580_0000_0000 => \&_op_bixor_b_xx3_Aaa8,
       0x7E00_7600_0000_0000 => \&_op_band_b_xx3_Aaa8,
       0x7E00_7680_0000_0000 => \&_op_biand_b_xx3_Aaa8,
@@ -270,6 +276,7 @@ sub _handlers {
       0x7300_0000_0000_0000 => \&_op_btst_b_xx3_rd,
       0x7400_0000_0000_0000 => \&_op_bor_b_xx3_rd,
       0x7480_0000_0000_0000 => \&_op_bior_b_xx3_rd,
+      0x7500_0000_0000_0000 => \&_op_bxor_b_xx3_rd,
       0x7580_0000_0000_0000 => \&_op_bixor_b_xx3_rd,
       0x7600_0000_0000_0000 => \&_op_band_b_xx3_rd,
       0x7680_0000_0000_0000 => \&_op_biand_b_xx3_rd,
@@ -295,6 +302,7 @@ sub _handlers {
       0x7C00_7300_0000_0000 => \&_op_btst_b_xx3_Aerd,
       0x7C00_7400_0000_0000 => \&_op_bor_b_xx3_Aerd,
       0x7C00_7480_0000_0000 => \&_op_bior_b_xx3_Aerd,
+      0x7C00_7500_0000_0000 => \&_op_bxor_b_xx3_Aerd,
       0x7C00_7580_0000_0000 => \&_op_bixor_b_xx3_Aerd,
       0x7C00_7600_0000_0000 => \&_op_band_b_xx3_Aerd,
       0x7C00_7680_0000_0000 => \&_op_biand_b_xx3_Aerd,
@@ -356,6 +364,7 @@ sub _handlers {
       0x6A30_0000_0000_7300 => \&_op_btst_b_xx3_Aaa32,
       0x6A30_0000_0000_7400 => \&_op_bor_b_xx3_Aaa32,
       0x6A30_0000_0000_7480 => \&_op_bior_b_xx3_Aaa32,
+      0x6A30_0000_0000_7500 => \&_op_bxor_b_xx3_Aaa32,
       0x6A30_0000_0000_7580 => \&_op_bixor_b_xx3_Aaa32,
       0x6A30_0000_0000_7600 => \&_op_band_b_xx3_Aaa32,
       0x6A30_0000_0000_7680 => \&_op_biand_b_xx3_Aaa32,
@@ -381,6 +390,7 @@ sub _handlers {
       0x6A10_0000_7300_0000 => \&_op_btst_b_xx3_Aaa16,
       0x6A10_0000_7400_0000 => \&_op_bor_b_xx3_Aaa16,
       0x6A10_0000_7480_0000 => \&_op_bior_b_xx3_Aaa16,
+      0x6A10_0000_7500_0000 => \&_op_bxor_b_xx3_Aaa16,
       0x6A10_0000_7580_0000 => \&_op_bixor_b_xx3_Aaa16,
       0x6A10_0000_7600_0000 => \&_op_band_b_xx3_Aaa16,
       0x6A10_0000_7680_0000 => \&_op_biand_b_xx3_Aaa16,
