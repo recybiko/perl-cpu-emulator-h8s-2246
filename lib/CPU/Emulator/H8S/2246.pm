@@ -150,6 +150,16 @@ foreach my $name (qw[
   bst_b_xx3_Aaa8
   bst_b_xx3_Aerd
   bst_b_xx3_rd
+  btst_b_rn_Aaa16
+  btst_b_rn_Aaa32
+  btst_b_rn_Aaa8
+  btst_b_rn_Aerd
+  btst_b_rn_rd
+  btst_b_xx3_Aaa16
+  btst_b_xx3_Aaa32
+  btst_b_xx3_Aaa8
+  btst_b_xx3_Aerd
+  btst_b_xx3_rd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -221,11 +231,13 @@ sub _handlers {
       0x6000_0000_0000_0000 => \&_op_bset_b_rn_rd,
       0x6100_0000_0000_0000 => \&_op_bnot_b_rn_rd,
       0x6200_0000_0000_0000 => \&_op_bclr_b_rn_rd,
+      0x6300_0000_0000_0000 => \&_op_btst_b_rn_rd,
       0x6600_0000_0000_0000 => \&_op_and_w_rs_rd,
     },
   }, {
     mask => 0xFF00_FF0F_0000_0000,
     handler_for => {
+      0x7E00_6300_0000_0000 => \&_op_btst_b_rn_Aaa8,
       0x7F00_6000_0000_0000 => \&_op_bset_b_rn_Aaa8,
       0x7F00_6100_0000_0000 => \&_op_bnot_b_rn_Aaa8,
       0x7F00_6200_0000_0000 => \&_op_bclr_b_rn_Aaa8,
@@ -233,6 +245,7 @@ sub _handlers {
   }, {
     mask => 0xFF00_FF8F_0000_0000,
     handler_for => {
+      0x7E00_7300_0000_0000 => \&_op_btst_b_xx3_Aaa8,
       0x7E00_7400_0000_0000 => \&_op_bor_b_xx3_Aaa8,
       0x7E00_7480_0000_0000 => \&_op_bior_b_xx3_Aaa8,
       0x7E00_7580_0000_0000 => \&_op_bixor_b_xx3_Aaa8,
@@ -254,6 +267,7 @@ sub _handlers {
       0x7000_0000_0000_0000 => \&_op_bset_b_xx3_rd,
       0x7100_0000_0000_0000 => \&_op_bnot_b_xx3_rd,
       0x7200_0000_0000_0000 => \&_op_bclr_b_xx3_rd,
+      0x7300_0000_0000_0000 => \&_op_btst_b_xx3_rd,
       0x7400_0000_0000_0000 => \&_op_bor_b_xx3_rd,
       0x7480_0000_0000_0000 => \&_op_bior_b_xx3_rd,
       0x7580_0000_0000_0000 => \&_op_bixor_b_xx3_rd,
@@ -270,6 +284,7 @@ sub _handlers {
   }, {
     mask => 0xFF8F_FF0F_0000_0000,
     handler_for => {
+      0x7C00_6300_0000_0000 => \&_op_btst_b_rn_Aerd,
       0x7D00_6000_0000_0000 => \&_op_bset_b_rn_Aerd,
       0x7D00_6100_0000_0000 => \&_op_bnot_b_rn_Aerd,
       0x7D00_6200_0000_0000 => \&_op_bclr_b_rn_Aerd,
@@ -277,6 +292,7 @@ sub _handlers {
   }, {
     mask => 0xFF8F_FF8F_0000_0000,
     handler_for => {
+      0x7C00_7300_0000_0000 => \&_op_btst_b_xx3_Aerd,
       0x7C00_7400_0000_0000 => \&_op_bor_b_xx3_Aerd,
       0x7C00_7480_0000_0000 => \&_op_bior_b_xx3_Aerd,
       0x7C00_7580_0000_0000 => \&_op_bixor_b_xx3_Aerd,
@@ -329,6 +345,7 @@ sub _handlers {
   }, {
     mask => 0xFFFF_0000_0000_FF0F,
     handler_for => {
+      0x6A30_0000_0000_6300 => \&_op_btst_b_rn_Aaa32,
       0x6A38_0000_0000_6000 => \&_op_bset_b_rn_Aaa32,
       0x6a38_0000_0000_6100 => \&_op_bnot_b_rn_Aaa32,
       0x6A38_0000_0000_6200 => \&_op_bclr_b_rn_Aaa32,
@@ -336,6 +353,7 @@ sub _handlers {
   }, {
     mask => 0xFFFF_0000_0000_FF8F,
     handler_for => {
+      0x6A30_0000_0000_7300 => \&_op_btst_b_xx3_Aaa32,
       0x6A30_0000_0000_7400 => \&_op_bor_b_xx3_Aaa32,
       0x6A30_0000_0000_7480 => \&_op_bior_b_xx3_Aaa32,
       0x6A30_0000_0000_7580 => \&_op_bixor_b_xx3_Aaa32,
@@ -352,6 +370,7 @@ sub _handlers {
   }, {
     mask => 0xFFFF_0000_FF0F_0000,
     handler_for => {
+      0x6A10_0000_6300_0000 => \&_op_btst_b_rn_Aaa16,
       0x6A18_0000_6000_0000 => \&_op_bset_b_rn_Aaa16,
       0x6A18_0000_6100_0000 => \&_op_bnot_b_rn_Aaa16,
       0x6A18_0000_6200_0000 => \&_op_bclr_b_rn_Aaa16,
@@ -359,6 +378,7 @@ sub _handlers {
   }, {
     mask => 0xFFFF_0000_FF8F_0000,
     handler_for => {
+      0x6A10_0000_7300_0000 => \&_op_btst_b_xx3_Aaa16,
       0x6A10_0000_7400_0000 => \&_op_bor_b_xx3_Aaa16,
       0x6A10_0000_7480_0000 => \&_op_bior_b_xx3_Aaa16,
       0x6A10_0000_7580_0000 => \&_op_bixor_b_xx3_Aaa16,
