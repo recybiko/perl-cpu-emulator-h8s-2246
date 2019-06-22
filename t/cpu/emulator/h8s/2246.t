@@ -355,4 +355,40 @@ subtest 'BLD' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: bld_b_xx3_Aaa32/, 'right error';
 };
 
+subtest 'BNOT' => sub {
+  my @rn = (0x61, 0x00);
+
+  $cpu->memory->from_string(pack('NC2S>C2', 4, 0x6A, 0x18, 0, @rn));
+  throws_ok { $cpu->reset->step } qr/STUB: bnot_b_rn_Aaa16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2NC2', 4, 0x6A, 0x38, 0, @rn));
+  throws_ok { $cpu->reset->step } qr/STUB: bnot_b_rn_Aaa32/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x7F, 0, @rn));
+  throws_ok { $cpu->reset->step } qr/STUB: bnot_b_rn_Aaa8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x7D, 0x00, @rn));
+  throws_ok { $cpu->reset->step } qr/STUB: bnot_b_rn_Aerd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, @rn));
+  throws_ok { $cpu->reset->step } qr/STUB: bnot_b_rn_rd/, 'right error';
+
+  my @imm = (0x71, 00);
+
+  $cpu->memory->from_string(pack('NC2S>C2', 4, 0x6A, 0x18, 0, @imm));
+  throws_ok { $cpu->reset->step } qr/STUB: bnot_b_xx3_Aaa16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2NC2', 4, 0x6A, 0x38, 0, @imm));
+  throws_ok { $cpu->reset->step } qr/STUB: bnot_b_xx3_Aaa32/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x7F, 0, @imm));
+  throws_ok { $cpu->reset->step } qr/STUB: bnot_b_xx3_Aaa8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x7D, 0x00, @imm));
+  throws_ok { $cpu->reset->step } qr/STUB: bnot_b_xx3_Aerd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, @imm));
+  throws_ok { $cpu->reset->step } qr/STUB: bnot_b_xx3_rd/, 'right error';
+};
+
 done_testing;
