@@ -391,4 +391,23 @@ subtest 'BNOT' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: bnot_b_xx3_rd/, 'right error';
 };
 
+subtest 'BOR' => sub {
+  my @payload = (0x74, 0x00);
+
+  $cpu->memory->from_string(pack('NC2', 4, @payload));
+  throws_ok { $cpu->reset->step } qr/STUB: bor_b_xx3_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x7C, 0x00, @payload));
+  throws_ok { $cpu->reset->step } qr/STUB: bor_b_xx3_Aerd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x7E, 0, @payload));
+  throws_ok { $cpu->reset->step } qr/STUB: bor_b_xx3_Aaa8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2S>C2', 4, 0x6A, 0x10, 0, @payload));
+  throws_ok { $cpu->reset->step } qr/STUB: bor_b_xx3_Aaa16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2NC2', 4, 0x6A, 0x30, 0, @payload));
+  throws_ok { $cpu->reset->step } qr/STUB: bor_b_xx3_Aaa32/, 'right error';
+};
+
 done_testing;
