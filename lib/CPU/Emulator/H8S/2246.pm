@@ -113,6 +113,11 @@ foreach my $name (qw[
   bixor_b_xx3_Aaa8
   bixor_b_xx3_Aerd
   bixor_b_xx3_rd
+  bld_b_xx3_Aaa16
+  bld_b_xx3_Aaa32
+  bld_b_xx3_Aaa8
+  bld_b_xx3_Aerd
+  bld_b_xx3_rd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -195,6 +200,7 @@ sub _handlers {
       0x7E00_7580_0000_0000 => \&_op_bixor_b_xx3_Aaa8,
       0x7E00_7600_0000_0000 => \&_op_band_b_xx3_Aaa8,
       0x7E00_7680_0000_0000 => \&_op_biand_b_xx3_Aaa8,
+      0x7E00_7700_0000_0000 => \&_op_bld_b_xx3_Aaa8,
       0x7E00_7780_0000_0000 => \&_op_bild_b_xx3_Aaa8,
       0x7F00_6780_0000_0000 => \&_op_bist_b_xx3_Aaa8,
       0x7F00_7200_0000_0000 => \&_op_bclr_b_xx3_Aaa8,
@@ -208,6 +214,7 @@ sub _handlers {
       0x7580_0000_0000_0000 => \&_op_bixor_b_xx3_rd,
       0x7600_0000_0000_0000 => \&_op_band_b_xx3_rd,
       0x7680_0000_0000_0000 => \&_op_biand_b_xx3_rd,
+      0x7700_0000_0000_0000 => \&_op_bld_b_xx3_rd,
       0x7780_0000_0000_0000 => \&_op_bild_b_xx3_rd,
     },
   }, {
@@ -227,6 +234,7 @@ sub _handlers {
       0x7C00_7580_0000_0000 => \&_op_bixor_b_xx3_Aerd,
       0x7C00_7600_0000_0000 => \&_op_band_b_xx3_Aerd,
       0x7C00_7680_0000_0000 => \&_op_biand_b_xx3_Aerd,
+      0x7C00_7700_0000_0000 => \&_op_bld_b_xx3_Aerd,
       0x7C00_7780_0000_0000 => \&_op_bild_b_xx3_Aerd,
       0x7D00_6780_0000_0000 => \&_op_bist_b_xx3_Aerd,
       0x7D00_7200_0000_0000 => \&_op_bclr_b_xx3_Aerd,
@@ -278,6 +286,7 @@ sub _handlers {
       0x6A30_0000_0000_7580 => \&_op_bixor_b_xx3_Aaa32,
       0x6A30_0000_0000_7600 => \&_op_band_b_xx3_Aaa32,
       0x6A30_0000_0000_7680 => \&_op_biand_b_xx3_Aaa32,
+      0x6A30_0000_0000_7700 => \&_op_bld_b_xx3_Aaa32,
       0x6A30_0000_0000_7780 => \&_op_bild_b_xx3_Aaa32,
       0x6A38_0000_0000_6780 => \&_op_bist_b_xx3_Aaa32,
       0x6A38_0000_0000_7200 => \&_op_bclr_b_xx3_Aaa32,
@@ -294,6 +303,7 @@ sub _handlers {
       0x6A10_0000_7580_0000 => \&_op_bixor_b_xx3_Aaa16,
       0x6A10_0000_7600_0000 => \&_op_band_b_xx3_Aaa16,
       0x6A10_0000_7680_0000 => \&_op_biand_b_xx3_Aaa16,
+      0x6A10_0000_7700_0000 => \&_op_bld_b_xx3_Aaa16,
       0x6A10_0000_7780_0000 => \&_op_bild_b_xx3_Aaa16,
       0x6A18_0000_6780_0000 => \&_op_bist_b_xx3_Aaa16,
       0x6A18_0000_7200_0000 => \&_op_bclr_b_xx3_Aaa16,
