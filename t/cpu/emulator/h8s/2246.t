@@ -446,4 +446,12 @@ subtest 'BSET' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: bset_b_xx3_rd/, 'right error';
 };
 
+subtest 'BSR' => sub {
+  $cpu->memory->from_string(pack('NC2S>', 4, 0x5C, 0x00, 0));
+  throws_ok { $cpu->reset->step } qr/STUB: bsr_d16/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x55, 0));
+  throws_ok { $cpu->reset->step } qr/STUB: bsr_d8/, 'right error';
+};
+
 done_testing;

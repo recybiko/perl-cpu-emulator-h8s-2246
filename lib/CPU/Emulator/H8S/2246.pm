@@ -143,6 +143,8 @@ foreach my $name (qw[
   bset_b_xx3_Aaa8
   bset_b_xx3_Aerd
   bset_b_xx3_rd
+  bsr_d16
+  bsr_d8
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -210,6 +212,7 @@ sub _handlers {
       0x4D00_0000_0000_0000 => \&_op_bcc_blt_d8,
       0x4E00_0000_0000_0000 => \&_op_bcc_bgt_d8,
       0x4F00_0000_0000_0000 => \&_op_bcc_ble_d8,
+      0x5500_0000_0000_0000 => \&_op_bsr_d8,
       0x6000_0000_0000_0000 => \&_op_bset_b_rn_rd,
       0x6100_0000_0000_0000 => \&_op_bnot_b_rn_rd,
       0x6200_0000_0000_0000 => \&_op_bclr_b_rn_rd,
@@ -313,6 +316,7 @@ sub _handlers {
       0x58D0_0000_0000_0000 => \&_op_bcc_blt_d16,
       0x58E0_0000_0000_0000 => \&_op_bcc_bgt_d16,
       0x58F0_0000_0000_0000 => \&_op_bcc_ble_d16,
+      0x5C00_0000_0000_0000 => \&_op_bsr_d16,
     },
   }, {
     mask => 0xFFFF_0000_0000_FF0F,
