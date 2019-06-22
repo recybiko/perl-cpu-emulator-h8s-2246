@@ -88,6 +88,11 @@ foreach my $name (qw[
   bclr_b_xx3_Aaa8
   bclr_b_xx3_Aerd
   bclr_b_xx3_rd
+  biand_b_xx3_Aaa16
+  biand_b_xx3_Aaa32
+  biand_b_xx3_Aaa8
+  biand_b_xx3_Aerd
+  biand_b_xx3_rd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -167,6 +172,7 @@ sub _handlers {
     mask => 0xFF00_FF8F_0000_0000,
     handler_for => {
       0x7E00_7600_0000_0000 => \&_op_band_b_xx3_Aaa8,
+      0x7E00_7680_0000_0000 => \&_op_biand_b_xx3_Aaa8,
       0x7F00_7200_0000_0000 => \&_op_bclr_b_xx3_Aaa8,
     },
   }, {
@@ -174,6 +180,7 @@ sub _handlers {
     handler_for => {
       0x7200_0000_0000_0000 => \&_op_bclr_b_xx3_rd,
       0x7600_0000_0000_0000 => \&_op_band_b_xx3_rd,
+      0x7680_0000_0000_0000 => \&_op_biand_b_xx3_rd,
     },
   }, {
     mask => 0xFF88_0000_0000_0000,
@@ -189,6 +196,7 @@ sub _handlers {
     mask => 0xFF8F_FF8F_0000_0000,
     handler_for => {
       0x7C00_7600_0000_0000 => \&_op_band_b_xx3_Aerd,
+      0x7C00_7680_0000_0000 => \&_op_biand_b_xx3_Aerd,
       0x7D00_7200_0000_0000 => \&_op_bclr_b_xx3_Aerd,
     },
   }, {
@@ -235,6 +243,7 @@ sub _handlers {
     mask => 0xFFFF_0000_0000_FF8F,
     handler_for => {
       0x6A30_0000_0000_7600 => \&_op_band_b_xx3_Aaa32,
+      0x6A30_0000_0000_7680 => \&_op_biand_b_xx3_Aaa32,
       0x6A38_0000_0000_7200 => \&_op_bclr_b_xx3_Aaa32,
     },
   }, {
@@ -246,6 +255,7 @@ sub _handlers {
     mask => 0xFFFF_0000_FF8F_0000,
     handler_for => {
       0x6A10_0000_7600_0000 => \&_op_band_b_xx3_Aaa16,
+      0x6A10_0000_7680_0000 => \&_op_biand_b_xx3_Aaa16,
       0x6A18_0000_7200_0000 => \&_op_bclr_b_xx3_Aaa16,
     },
   }, {
