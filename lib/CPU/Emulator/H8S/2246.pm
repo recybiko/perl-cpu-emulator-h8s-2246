@@ -333,6 +333,7 @@ foreach my $name (qw[
   shlr_l_erd
   shlr_w_2_rd
   shlr_w_rd
+  sleep
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -642,6 +643,7 @@ sub _handlers {
     mask => 0xFFFF_0000_0000_0000,
     handler_for => {
       0x0000_0000_0000_0000 => \&_op_nop,
+      0x0180_0000_0000_0000 => \&_op_sleep,
       0x5470_0000_0000_0000 => \&_op_rts,
       0x5670_0000_0000_0000 => \&_op_rte,
       0x5800_0000_0000_0000 => \&_op_bcc_bra_d16,

@@ -1195,4 +1195,7 @@ subtest 'SHLR' => sub {
   };
 };
 
+$cpu->memory->from_string(pack('NC2', 4, 0x01, 0x80));
+throws_ok { $cpu->reset->step } qr/STUB: sleep/, 'right error';
+
 done_testing;
