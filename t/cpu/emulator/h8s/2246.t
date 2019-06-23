@@ -615,4 +615,12 @@ subtest 'EXTS' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: exts_l_erd/, 'right error';
 };
 
+subtest 'EXTU' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x17, 0x50));
+  throws_ok { $cpu->reset->step } qr/STUB: extu_w_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x17, 0x70));
+  throws_ok { $cpu->reset->step } qr/STUB: extu_l_erd/, 'right error';
+};
+
 done_testing;

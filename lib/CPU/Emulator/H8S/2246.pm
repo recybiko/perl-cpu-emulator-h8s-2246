@@ -186,6 +186,8 @@ foreach my $name (qw[
   eepmov_w
   exts_l_erd
   exts_w_rd
+  extu_l_erd
+  extu_w_rd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -349,6 +351,7 @@ sub _handlers {
     mask => 0xFFF0_0000_0000_0000,
     handler_for => {
       0x0F00_0000_0000_0000 => \&_op_daa_b_rd,
+      0x1750_0000_0000_0000 => \&_op_extu_w_rd,
       0x17D0_0000_0000_0000 => \&_op_exts_w_rd,
       0x1A00_0000_0000_0000 => \&_op_dec_b_rd,
       0x1B50_0000_0000_0000 => \&_op_dec_w_1_rd,
@@ -364,6 +367,7 @@ sub _handlers {
       0x0B00_0000_0000_0000 => \&_op_adds_l_1_erd,
       0x0B80_0000_0000_0000 => \&_op_adds_l_2_erd,
       0x0B90_0000_0000_0000 => \&_op_adds_l_4_erd,
+      0x1770_0000_0000_0000 => \&_op_extu_l_erd,
       0x17F0_0000_0000_0000 => \&_op_exts_l_erd,
       0x1B70_0000_0000_0000 => \&_op_dec_l_1_erd,
       0x1BF0_0000_0000_0000 => \&_op_dec_l_2_erd,
