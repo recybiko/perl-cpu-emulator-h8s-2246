@@ -528,4 +528,30 @@ subtest 'BXOR' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: bxor_b_xx3_Aaa32/, 'right error';
 };
 
+subtest 'CMP' => sub {
+  subtest 'CMP.B' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0xA0, 0xFF));
+    throws_ok { $cpu->reset->step } qr/STUB: cmp_b_xx8_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x1C, 0x08));
+    throws_ok { $cpu->reset->step } qr/STUB: cmp_b_rs_rd/, 'right error';
+  };
+
+  subtest 'CMP.W' => sub {
+    $cpu->memory->from_string(pack('NC2S>', 4, 0x79, 0x20, 0xFFFF));
+    throws_ok { $cpu->reset->step } qr/STUB: cmp_w_xx16_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x1D, 0x08));
+    throws_ok { $cpu->reset->step } qr/STUB: cmp_w_rs_rd/, 'right error';
+  };
+
+  subtest 'CMP.L' => sub {
+    $cpu->memory->from_string(pack('NC2N', 4, 0x7A, 0x20, 0, 0xFFFF_FFFF));
+    throws_ok { $cpu->reset->step } qr/STUB: cmp_l_xx32_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x1F, 0x80 | 0x01));
+    throws_ok { $cpu->reset->step } qr/STUB: cmp_l_ers_erd/, 'right error';
+  };
+};
+
 done_testing;
