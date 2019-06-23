@@ -554,4 +554,10 @@ subtest 'CMP' => sub {
   };
 };
 
+$cpu->memory->from_string(pack('NC2', 4, 0x0F, 0x00));
+throws_ok { $cpu->reset->step } qr/STUB: daa_b_rd/, 'right error';
+
+$cpu->memory->from_string(pack('NC2', 4, 0x1F, 0x00));
+throws_ok { $cpu->reset->step } qr/STUB: das_b_rd/, 'right error';
+
 done_testing;
