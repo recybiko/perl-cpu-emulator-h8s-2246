@@ -1342,4 +1342,12 @@ subtest 'XOR' => sub {
   };
 };
 
+subtest 'XORC' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x05, 0xFF));
+  throws_ok { $cpu->reset->step } qr/STUB: xorc_b_xx8_ccr/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x41, 0x05, 0xFF));
+  throws_ok { $cpu->reset->step } qr/STUB: xorc_b_xx8_exr/, 'right error';
+};
+
 done_testing;
