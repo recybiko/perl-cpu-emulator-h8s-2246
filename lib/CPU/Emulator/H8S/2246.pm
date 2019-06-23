@@ -218,6 +218,22 @@ foreach my $name (qw[
   ldm_l_AspP_OPernMernP1CP
   ldm_l_AspP_OPernMernP2CP
   ldm_l_AspP_OPernMernP3CP
+  mov_b_Aaa16_rd
+  mov_b_Aaa32_rd
+  mov_b_Aaa8_rd
+  mov_b_Aers_rd
+  mov_b_AersP_rd
+  mov_b_AOPd16_ersCP_rd
+  mov_b_AOPd32_ersCP_rd
+  mov_b_rs_Aaa16
+  mov_b_rs_Aaa32
+  mov_b_rs_Aaa8
+  mov_b_rs_Aerd
+  mov_b_rs_AMerd
+  mov_b_rs_AOPd16_erdCP
+  mov_b_rs_AOPd32_erdCP
+  mov_b_rs_rd
+  mov_b_xx8_rd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -257,10 +273,13 @@ sub _handlers {
   return c({
     mask => 0xF000_0000_0000_0000,
     handler_for => {
+      0x2000_0000_0000_0000 => \&_op_mov_b_Aaa8_rd,
+      0x3000_0000_0000_0000 => \&_op_mov_b_rs_Aaa8,
       0x8000_0000_0000_0000 => \&_op_add_b_xx8_rd,
       0x9000_0000_0000_0000 => \&_op_addx_b_xx8_rd,
       0xA000_0000_0000_0000 => \&_op_cmp_b_xx8_rd,
       0xE000_0000_0000_0000 => \&_op_and_b_xx8_rd,
+      0xF000_0000_0000_0000 => \&_op_mov_b_xx8_rd,
     },
   }, {
     mask => 0xFF00_0000_0000_0000,
@@ -269,6 +288,7 @@ sub _handlers {
       0x0700_0000_0000_0000 => \&_op_ldc_b_xx8_ccr,
       0x0800_0000_0000_0000 => \&_op_add_b_rs_rd,
       0x0900_0000_0000_0000 => \&_op_add_w_rs_rd,
+      0x0C00_0000_0000_0000 => \&_op_mov_b_rs_rd,
       0x0E00_0000_0000_0000 => \&_op_addx_b_rs_rd,
       0x1600_0000_0000_0000 => \&_op_and_b_rs_rd,
       0x1C00_0000_0000_0000 => \&_op_cmp_b_rs_rd,
@@ -337,6 +357,12 @@ sub _handlers {
     handler_for => {
       0x6700_0000_0000_0000 => \&_op_bst_b_xx3_rd,
       0x6780_0000_0000_0000 => \&_op_bist_b_xx3_rd,
+      0x6800_0000_0000_0000 => \&_op_mov_b_Aers_rd,
+      0x6880_0000_0000_0000 => \&_op_mov_b_rs_Aerd,
+      0x6C00_0000_0000_0000 => \&_op_mov_b_AersP_rd,
+      0x6E80_0000_0000_0000 => \&_op_mov_b_rs_AOPd16_erdCP,
+      0x6C80_0000_0000_0000 => \&_op_mov_b_rs_AMerd,
+      0x6E00_0000_0000_0000 => \&_op_mov_b_AOPd16_ersCP_rd,
       0x7000_0000_0000_0000 => \&_op_bset_b_xx3_rd,
       0x7100_0000_0000_0000 => \&_op_bnot_b_xx3_rd,
       0x7200_0000_0000_0000 => \&_op_bclr_b_xx3_rd,
@@ -389,6 +415,12 @@ sub _handlers {
       0x7D00_7200_0000_0000 => \&_op_bclr_b_xx3_Aerd,
     },
   }, {
+    mask => 0xFF8F_FFF0_0000_0000,
+    handler_for => {
+      0x7800_6A20_0000_0000 => \&_op_mov_b_AOPd32_ersCP_rd,
+      0x7800_6AA0_0000_0000 => \&_op_mov_b_rs_AOPd32_erdCP,
+    },
+  }, {
     mask => 0xFFF0_0000_0000_0000,
     handler_for => {
       0x0300_0000_0000_0000 => \&_op_ldc_b_rs_ccr,
@@ -403,6 +435,10 @@ sub _handlers {
       0x1B50_0000_0000_0000 => \&_op_dec_w_1_rd,
       0x1BD0_0000_0000_0000 => \&_op_dec_w_2_rd,
       0x1F00_0000_0000_0000 => \&_op_das_b_rd,
+      0x6A00_0000_0000_0000 => \&_op_mov_b_Aaa16_rd,
+      0x6A20_0000_0000_0000 => \&_op_mov_b_Aaa32_rd,
+      0x6A80_0000_0000_0000 => \&_op_mov_b_rs_Aaa16,
+      0x6AA0_0000_0000_0000 => \&_op_mov_b_rs_Aaa32,
       0x7910_0000_0000_0000 => \&_op_add_w_xx16_rd,
       0x7920_0000_0000_0000 => \&_op_cmp_w_xx16_rd,
       0x7960_0000_0000_0000 => \&_op_and_w_xx16_rd,

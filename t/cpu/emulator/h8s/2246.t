@@ -744,4 +744,61 @@ subtest 'LDM' => sub {
     'right error';
 };
 
+
+subtest 'MOV' => sub {
+  subtest 'MOV.B' => sub {
+    $cpu->memory->from_string(pack('NC2S>', 4, 0x6A, 0x00, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_Aaa16_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4N', 4, 0x6A, 0x20, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_Aaa32_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x20, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_Aaa8_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x68, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_Aers_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x6C, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_AersP_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2S>', 4, 0x6E, 0x00, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_AOPd16_ersCP_rd/,
+      'right error';
+
+    $cpu->memory->from_string(pack('NC4N', 4, 0x78, 0x00, 0x6A, 0x20, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_AOPd32_ersCP_rd/,
+      'right error';
+
+    $cpu->memory->from_string(pack('NC2S>', 4, 0x6A, 0x80, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_rs_Aaa16/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4N', 4, 0x6A, 0xA0, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_rs_Aaa32/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x30, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_rs_Aaa8/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x68, 0x80));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_rs_Aerd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x6C, 0x80));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_rs_AMerd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2S>', 4, 0x6E, 0x80, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_rs_AOPd16_erdCP/,
+      'right error';
+
+    $cpu->memory->from_string(pack('NC4N', 4, 0x78, 0x00, 0x6A, 0xA0, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_rs_AOPd32_erdCP/,
+      'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x0C, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_rs_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0xF0, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_b_xx8_rd/, 'right error';
+  };
+};
+
 done_testing;
