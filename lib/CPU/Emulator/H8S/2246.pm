@@ -182,6 +182,8 @@ foreach my $name (qw[
   divxs_w_rs_erd
   divxu_b_rs_rd
   divxu_w_rs_erd
+  eepmov_b
+  eepmov_w
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -453,6 +455,12 @@ sub _handlers {
     mask => 0xFFFF_FF88_0000_0000,
     handler_for => {
       0x01F0_6600_0000_0000 => \&_op_and_l_ers_erd,
+    },
+  }, {
+    mask => 0xFFFF_FFFF_0000_0000,
+    handler_for => {
+      0x7B5C_598F_0000_0000 => \&_op_eepmov_b,
+      0x7BD4_598F_0000_0000 => \&_op_eepmov_w,
     },
   });
 }

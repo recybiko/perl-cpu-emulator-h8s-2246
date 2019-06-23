@@ -599,4 +599,12 @@ subtest 'DIVXU' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: divxu_w_rs_erd/, 'right error';
 };
 
+subtest 'EEPMOV' => sub {
+  $cpu->memory->from_string(pack('NC4', 4, 0x7B, 0x5C, 0x59, 0x8F));
+  throws_ok { $cpu->reset->step } qr/STUB: eepmov_b/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x7B, 0xD4, 0x59, 0x8F));
+  throws_ok { $cpu->reset->step } qr/STUB: eepmov_w/, 'right error';
+};
+
 done_testing;
