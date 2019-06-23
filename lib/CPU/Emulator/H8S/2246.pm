@@ -334,6 +334,20 @@ foreach my $name (qw[
   shlr_w_2_rd
   shlr_w_rd
   sleep
+  stc_b_ccr_rd
+  stc_b_exr_rd
+  stc_w_ccr_Aaa16
+  stc_w_ccr_Aaa32
+  stc_w_ccr_Aerd
+  stc_w_ccr_AMerd
+  stc_w_ccr_AOPd16_erdCP
+  stc_w_ccr_AOPd32_erdCP
+  stc_w_exr_Aaa16
+  stc_w_exr_Aaa32
+  stc_w_exr_AOPd16_erdCP
+  stc_w_exr_AOPd32_erdCP
+  stc_w_exr_Aerd
+  stc_w_exr_AMerd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -539,6 +553,8 @@ sub _handlers {
   }, {
     mask => 0xFFF0_0000_0000_0000,
     handler_for => {
+      0x0200_0000_0000_0000 => \&_op_stc_b_ccr_rd,
+      0x0210_0000_0000_0000 => \&_op_stc_b_exr_rd,
       0x0300_0000_0000_0000 => \&_op_ldc_b_rs_ccr,
       0x0310_0000_0000_0000 => \&_op_ldc_b_rs_exr,
       0x0A00_0000_0000_0000 => \&_op_inc_b_rd,
@@ -747,11 +763,17 @@ sub _handlers {
     mask => 0xFFFF_FF8F_0000_0000,
     handler_for => {
       0x0140_6900_0000_0000 => \&_op_ldc_w_Aers_ccr,
+      0x0140_6980_0000_0000 => \&_op_stc_w_ccr_Aerd,
       0x0140_6D00_0000_0000 => \&_op_ldc_w_AersP_ccr,
+      0x0140_6D80_0000_0000 => \&_op_stc_w_ccr_AMerd,
       0x0140_6F00_0000_0000 => \&_op_ldc_w_AOPd16_ersCP_ccr,
+      0x0140_6F80_0000_0000 => \&_op_stc_w_ccr_AOPd16_erdCP,
       0x0141_6900_0000_0000 => \&_op_ldc_w_Aers_exr,
+      0x0141_6980_0000_0000 => \&_op_stc_w_exr_Aerd,
       0x0141_6D00_0000_0000 => \&_op_ldc_w_AersP_exr,
+      0x0141_6D80_0000_0000 => \&_op_stc_w_exr_AMerd,
       0x0141_6F00_0000_0000 => \&_op_ldc_w_AOPd16_ersCP_exr,
+      0x0141_6F80_0000_0000 => \&_op_stc_w_exr_AOPd16_erdCP,
     },
   }, {
     mask => 0xFFFF_FF8F_FFF8_0000,
@@ -763,7 +785,9 @@ sub _handlers {
     mask => 0xFFFF_FF8F_FFFF_0000,
     handler_for => {
       0x0140_7800_6B20_0000 => \&_op_ldc_w_AOPd32_ersCP_ccr,
+      0x0140_7800_6BA0_0000 => \&_op_stc_w_ccr_AOPd32_erdCP,
       0x0141_7800_6B20_0000 => \&_op_ldc_w_AOPd32_ersCP_exr,
+      0x0141_7800_6BA0_0000 => \&_op_stc_w_exr_AOPd32_erdCP,
     },
   }, {
     mask => 0xFFFF_FFF8_0000_0000,
@@ -781,8 +805,12 @@ sub _handlers {
     handler_for => {
       0x0140_6B00_0000_0000 => \&_op_ldc_w_Aaa16_ccr,
       0x0140_6B20_0000_0000 => \&_op_ldc_w_Aaa32_ccr,
+      0x0140_6B80_0000_0000 => \&_op_stc_w_ccr_Aaa16,
+      0x0140_6BA0_0000_0000 => \&_op_stc_w_ccr_Aaa32,
       0x0141_6B00_0000_0000 => \&_op_ldc_w_Aaa16_exr,
       0x0141_6B20_0000_0000 => \&_op_ldc_w_Aaa32_exr,
+      0x0141_6B80_0000_0000 => \&_op_stc_w_exr_Aaa16,
+      0x0141_6BA0_0000_0000 => \&_op_stc_w_exr_Aaa32,
       0x7B5C_598F_0000_0000 => \&_op_eepmov_b,
       0x7BD4_598F_0000_0000 => \&_op_eepmov_w,
     },
