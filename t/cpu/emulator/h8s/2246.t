@@ -900,4 +900,10 @@ subtest 'MOV' => sub {
   };
 };
 
+$cpu->memory->from_string(pack('NC2', 4, 0x6A, 0x40));
+throws_ok { $cpu->reset->step } qr/STUB: movfpe_b_Aaa16_rd/, 'right error';
+
+$cpu->memory->from_string(pack('NC2', 4, 0x6A, 0xC0));
+throws_ok { $cpu->reset->step } qr/STUB: movtpe_b_rs_Aaa16/, 'right error';
+
 done_testing;
