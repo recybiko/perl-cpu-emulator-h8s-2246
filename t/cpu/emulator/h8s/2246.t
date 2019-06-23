@@ -560,4 +560,27 @@ throws_ok { $cpu->reset->step } qr/STUB: daa_b_rd/, 'right error';
 $cpu->memory->from_string(pack('NC2', 4, 0x1F, 0x00));
 throws_ok { $cpu->reset->step } qr/STUB: das_b_rd/, 'right error';
 
+subtest 'DEC' => sub {
+  subtest 'DEC.B' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x1A, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: dec_b_rd/, 'right error';
+  };
+
+  subtest 'DEC.W' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x1B, 0x50));
+    throws_ok { $cpu->reset->step } qr/STUB: dec_w_1_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x1B, 0xD0));
+    throws_ok { $cpu->reset->step } qr/STUB: dec_w_2_rd/, 'right error';
+  };
+
+  subtest 'DEC.L' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x1B, 0x70));
+    throws_ok { $cpu->reset->step } qr/STUB: dec_l_1_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x1B, 0xF0));
+    throws_ok { $cpu->reset->step } qr/STUB: dec_l_2_erd/, 'right error';
+  };
+};
+
 done_testing;
