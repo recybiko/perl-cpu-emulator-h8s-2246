@@ -1310,4 +1310,10 @@ subtest 'SUBX' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: subx_b_rs_rd/, 'right error';
 };
 
+$cpu->memory->from_string(pack('NC4', 4, 0x01, 0xE0, 0x7B, 0x0C));
+throws_ok { $cpu->reset->step } qr/STUB: tas_b_Aerd/, 'right error';
+
+$cpu->memory->from_string(pack('NC2', 4, 0x57, 0x00));
+throws_ok { $cpu->reset->step } qr/STUB: trapa/, 'right error';
+
 done_testing;
