@@ -359,6 +359,8 @@ foreach my $name (qw[
   subs_l_1_erd
   subs_l_2_erd
   subs_l_4_erd
+  subx_b_rs_rd
+  subx_b_xx8_rd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -403,6 +405,7 @@ sub _handlers {
       0x8000_0000_0000_0000 => \&_op_add_b_xx8_rd,
       0x9000_0000_0000_0000 => \&_op_addx_b_xx8_rd,
       0xA000_0000_0000_0000 => \&_op_cmp_b_xx8_rd,
+      0xB000_0000_0000_0000 => \&_op_subx_b_xx8_rd,
       0xC000_0000_0000_0000 => \&_op_or_b_xx8_rd,
       0xE000_0000_0000_0000 => \&_op_and_b_xx8_rd,
       0xF000_0000_0000_0000 => \&_op_mov_b_xx8_rd,
@@ -424,6 +427,7 @@ sub _handlers {
       0x1900_0000_0000_0000 => \&_op_sub_w_rs_rd,
       0x1C00_0000_0000_0000 => \&_op_cmp_b_rs_rd,
       0x1D00_0000_0000_0000 => \&_op_cmp_w_rs_rd,
+      0x1E00_0000_0000_0000 => \&_op_subx_b_rs_rd,
       0x4000_0000_0000_0000 => \&_op_bcc_bra_d8,
       0x4100_0000_0000_0000 => \&_op_bcc_brn_d8,
       0x4200_0000_0000_0000 => \&_op_bcc_bhi_d8,
