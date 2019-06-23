@@ -215,6 +215,9 @@ foreach my $name (qw[
   ldc_w_AOPd16_ersCP_exr
   ldc_w_AOPd32_ersCP_ccr
   ldc_w_AOPd32_ersCP_exr
+  ldm_l_AspP_OPernMernP1CP
+  ldm_l_AspP_OPernMernP2CP
+  ldm_l_AspP_OPernMernP3CP
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -525,6 +528,13 @@ sub _handlers {
     handler_for => {
       0x0140_7800_6B20_0000 => \&_op_ldc_w_AOPd32_ersCP_ccr,
       0x0141_7800_6B20_0000 => \&_op_ldc_w_AOPd32_ersCP_exr,
+    },
+  }, {
+    mask => 0xFFFF_FFF8_0000_0000,
+    handler_for => {
+      0x0110_6D70_0000_0000 => \&_op_ldm_l_AspP_OPernMernP1CP,
+      0x0120_6D70_0000_0000 => \&_op_ldm_l_AspP_OPernMernP2CP,
+      0x0130_6D70_0000_0000 => \&_op_ldm_l_AspP_OPernMernP3CP,
     },
   }, {
     mask => 0xFFFF_FFFF_0000_0000,

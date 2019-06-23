@@ -730,4 +730,18 @@ subtest 'LDC' => sub {
   };
 };
 
+subtest 'LDM' => sub {
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x10, 0x6D, 0x70));
+  throws_ok { $cpu->reset->step } qr/STUB: ldm_l_AspP_OPernMernP1CP/,
+    'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x20, 0x6D, 0x70));
+  throws_ok { $cpu->reset->step } qr/STUB: ldm_l_AspP_OPernMernP2CP/,
+    'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x30, 0x6D, 0x70));
+  throws_ok { $cpu->reset->step } qr/STUB: ldm_l_AspP_OPernMernP3CP/,
+    'right error';
+};
+
 done_testing;
