@@ -180,6 +180,8 @@ foreach my $name (qw[
   dec_w_2_rd
   divxs_b_rs_rd
   divxs_w_rs_erd
+  divxu_b_rs_rd
+  divxu_w_rs_erd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -250,6 +252,7 @@ sub _handlers {
       0x4D00_0000_0000_0000 => \&_op_bcc_blt_d8,
       0x4E00_0000_0000_0000 => \&_op_bcc_bgt_d8,
       0x4F00_0000_0000_0000 => \&_op_bcc_ble_d8,
+      0x5100_0000_0000_0000 => \&_op_divxu_b_rs_rd,
       0x5500_0000_0000_0000 => \&_op_bsr_d8,
       0x6000_0000_0000_0000 => \&_op_bset_b_rn_rd,
       0x6100_0000_0000_0000 => \&_op_bnot_b_rn_rd,
@@ -282,6 +285,11 @@ sub _handlers {
       0x7F00_7000_0000_0000 => \&_op_bset_b_xx3_Aaa8,
       0x7F00_7100_0000_0000 => \&_op_bnot_b_xx3_Aaa8,
       0x7F00_7200_0000_0000 => \&_op_bclr_b_xx3_Aaa8,
+    },
+  }, {
+    mask => 0xFF08_0000_0000_0000,
+    handler_for => {
+      0x5300_0000_0000_0000 => \&_op_divxu_w_rs_erd,
     },
   }, {
     mask => 0xFF80_0000_0000_0000,

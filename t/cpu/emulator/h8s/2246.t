@@ -591,4 +591,12 @@ subtest 'DIVXS' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: divxs_w_rs_erd/, 'right error';
 };
 
+subtest 'DIVXU' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x51, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: divxu_b_rs_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x53, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: divxu_w_rs_erd/, 'right error';
+};
+
 done_testing;
