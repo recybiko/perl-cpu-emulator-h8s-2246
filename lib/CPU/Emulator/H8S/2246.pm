@@ -271,6 +271,7 @@ foreach my $name (qw[
   neg_b_rd
   neg_l_erd
   neg_w_rd
+  nop
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -522,6 +523,7 @@ sub _handlers {
   }, {
     mask => 0xFFFF_0000_0000_0000,
     handler_for => {
+      0x0000_0000_0000_0000 => \&_op_nop,
       0x5800_0000_0000_0000 => \&_op_bcc_bra_d16,
       0x5810_0000_0000_0000 => \&_op_bcc_brn_d16,
       0x5820_0000_0000_0000 => \&_op_bcc_bhi_d16,

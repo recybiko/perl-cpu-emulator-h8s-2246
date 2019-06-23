@@ -933,4 +933,7 @@ subtest 'NEG' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: neg_w_rd/, 'right error';
 };
 
+$cpu->memory->from_string(pack('NC2', 4, 0x00, 0x00));
+throws_ok { $cpu->reset->step } qr/STUB: nop/, 'right error';
+
 done_testing;
