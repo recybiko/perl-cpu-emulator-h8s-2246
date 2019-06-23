@@ -744,7 +744,6 @@ subtest 'LDM' => sub {
     'right error';
 };
 
-
 subtest 'MOV' => sub {
   subtest 'MOV.B' => sub {
     $cpu->memory->from_string(pack('NC2S>', 4, 0x6A, 0x00, 0));
@@ -846,6 +845,58 @@ subtest 'MOV' => sub {
 
     $cpu->memory->from_string(pack('NC2S>', 4, 0x79, 0x00, 0));
     throws_ok { $cpu->reset->step } qr/STUB: mov_w_xx16_rd/, 'right error';
+  };
+
+  subtest 'MOV.L' => sub {
+    $cpu->memory->from_string(pack('NC4S>', 4, 0x01, 0x00, 0x6B, 0x00, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_Aaa16_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4N', 4, 0x01, 0x00, 0x6B, 0x20, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_Aaa32_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x00, 0x69, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_Aers_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x00, 0x6D, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_AersP_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4S>', 4, 0x01, 0x00, 0x6F, 0x00, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_AOPd16_ersCP_erd/,
+      'right error';
+
+    $cpu->memory->from_string(
+      pack('NC6N', 4, 0x01, 0x00, 0x78, 0x00, 0x6B, 0x20, 0),
+    );
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_AOPd32_ersCP_erd/,
+      'right error';
+
+    $cpu->memory->from_string(pack('NC4S>', 4, 0x01, 0x00, 0x6B, 0x80, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_ers_Aaa16/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4N', 4, 0x01, 0x00, 0x6B, 0xA0, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_ers_Aaa32/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x00, 0x69, 0x80));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_ers_Aerd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x00, 0x6D, 0x80));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_ers_AMerd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4S>', 4, 0x01, 0x00, 0x6F, 0x80, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_ers_AOPd16_erdCP/,
+      'right error';
+
+    $cpu->memory->from_string(
+      pack('NC6N', 4, 0x01, 0x00, 0x78, 0x00, 0x6B, 0xA0, 0),
+    );
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_ers_AOPd32_erdCP/,
+      'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x0F, 0x80));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_ers_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2N', 4, 0x7A, 0x00, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: mov_l_xx32_rd/, 'right error';
   };
 };
 

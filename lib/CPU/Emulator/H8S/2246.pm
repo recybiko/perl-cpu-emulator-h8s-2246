@@ -234,6 +234,20 @@ foreach my $name (qw[
   mov_b_rs_AOPd32_erdCP
   mov_b_rs_rd
   mov_b_xx8_rd
+  mov_l_Aaa16_erd
+  mov_l_Aaa32_erd
+  mov_l_Aers_erd
+  mov_l_AersP_erd
+  mov_l_AOPd16_ersCP_erd
+  mov_l_AOPd32_ersCP_erd
+  mov_l_ers_Aaa16
+  mov_l_ers_Aaa32
+  mov_l_ers_Aerd
+  mov_l_ers_AMerd
+  mov_l_ers_AOPd16_erdCP
+  mov_l_ers_AOPd32_erdCP
+  mov_l_ers_erd
+  mov_l_xx32_rd
   mov_w_Aaa16_rd
   mov_w_Aaa32_rd
   mov_w_Aers_rd
@@ -401,6 +415,7 @@ sub _handlers {
     mask => 0xFF88_0000_0000_0000,
     handler_for => {
       0x0A80_0000_0000_0000 => \&_op_add_l_ers_erd,
+      0x0F80_0000_0000_0000 => \&_op_mov_l_ers_erd,
       0x1F80_0000_0000_0000 => \&_op_cmp_l_ers_erd,
     },
   }, {
@@ -483,6 +498,7 @@ sub _handlers {
       0x17F0_0000_0000_0000 => \&_op_exts_l_erd,
       0x1B70_0000_0000_0000 => \&_op_dec_l_1_erd,
       0x1BF0_0000_0000_0000 => \&_op_dec_l_2_erd,
+      0x7A00_0000_0000_0000 => \&_op_mov_l_xx32_rd,
       0x7A10_0000_0000_0000 => \&_op_add_l_xx32_erd,
       0x7A20_0000_0000_0000 => \&_op_cmp_l_xx32_erd,
       0x7A60_0000_0000_0000 => \&_op_and_l_xx32_erd,
@@ -575,6 +591,12 @@ sub _handlers {
   }, {
     mask => 0xFFFF_FF88_0000_0000,
     handler_for => {
+      0x0100_6900_0000_0000 => \&_op_mov_l_Aers_erd,
+      0x0100_6980_0000_0000 => \&_op_mov_l_ers_Aerd,
+      0x0100_6D00_0000_0000 => \&_op_mov_l_AersP_erd,
+      0x0100_6D80_0000_0000 => \&_op_mov_l_ers_AMerd,
+      0x0100_6F00_0000_0000 => \&_op_mov_l_AOPd16_ersCP_erd,
+      0x0100_6F80_0000_0000 => \&_op_mov_l_ers_AOPd16_erdCP,
       0x01F0_6600_0000_0000 => \&_op_and_l_ers_erd,
     },
   }, {
@@ -588,6 +610,12 @@ sub _handlers {
       0x0141_6F00_0000_0000 => \&_op_ldc_w_AOPd16_ersCP_exr,
     },
   }, {
+    mask => 0xFFFF_FF8F_FFF8_0000,
+    handler_for => {
+      0x0100_7800_6B20_0000 => \&_op_mov_l_AOPd32_ersCP_erd,
+      0x0100_7800_6BA0_0000 => \&_op_mov_l_ers_AOPd32_erdCP,
+    },
+  }, {
     mask => 0xFFFF_FF8F_FFFF_0000,
     handler_for => {
       0x0140_7800_6B20_0000 => \&_op_ldc_w_AOPd32_ersCP_ccr,
@@ -596,6 +624,10 @@ sub _handlers {
   }, {
     mask => 0xFFFF_FFF8_0000_0000,
     handler_for => {
+      0x0100_6B00_0000_0000 => \&_op_mov_l_Aaa16_erd,
+      0x0100_6B20_0000_0000 => \&_op_mov_l_Aaa32_erd,
+      0x0100_6B80_0000_0000 => \&_op_mov_l_ers_Aaa16,
+      0x0100_6BA0_0000_0000 => \&_op_mov_l_ers_Aaa32,
       0x0110_6D70_0000_0000 => \&_op_ldm_l_AspP_OPernMernP1CP,
       0x0120_6D70_0000_0000 => \&_op_ldm_l_AspP_OPernMernP2CP,
       0x0130_6D70_0000_0000 => \&_op_ldm_l_AspP_OPernMernP3CP,
