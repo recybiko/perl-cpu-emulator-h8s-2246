@@ -914,4 +914,12 @@ subtest 'MULXS' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: mulxs_w_rs_erd/, 'right error';
 };
 
+subtest 'MULXU' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x50, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: mulxu_b_rs_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x52, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: mulxu_w_rs_erd/, 'right error';
+};
+
 done_testing;

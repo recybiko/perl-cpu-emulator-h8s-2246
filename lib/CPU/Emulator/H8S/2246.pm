@@ -266,6 +266,8 @@ foreach my $name (qw[
   movtpe_b_rs_Aaa16
   mulxs_b_rs_rd
   mulxs_w_rs_erd
+  mulxu_b_rs_rd
+  mulxu_w_rs_erd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -342,6 +344,7 @@ sub _handlers {
       0x4D00_0000_0000_0000 => \&_op_bcc_blt_d8,
       0x4E00_0000_0000_0000 => \&_op_bcc_bgt_d8,
       0x4F00_0000_0000_0000 => \&_op_bcc_ble_d8,
+      0x5000_0000_0000_0000 => \&_op_mulxu_b_rs_rd,
       0x5100_0000_0000_0000 => \&_op_divxu_b_rs_rd,
       0x5500_0000_0000_0000 => \&_op_bsr_d8,
       0x5A00_0000_0000_0000 => \&_op_jmp_Aaa24,
@@ -383,6 +386,7 @@ sub _handlers {
   }, {
     mask => 0xFF08_0000_0000_0000,
     handler_for => {
+      0x5200_0000_0000_0000 => \&_op_mulxu_w_rs_erd,
       0x5300_0000_0000_0000 => \&_op_divxu_w_rs_erd,
     },
   }, {
