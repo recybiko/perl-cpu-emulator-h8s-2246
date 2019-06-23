@@ -981,4 +981,30 @@ subtest 'ORC' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: orc_b_xx8_exr/, 'right error';
 };
 
+subtest 'ROTL' => sub {
+  subtest 'ROTL.B' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x12, 0x80));
+    throws_ok { $cpu->reset->step } qr/STUB: rotl_b_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x12, 0xC0));
+    throws_ok { $cpu->reset->step } qr/STUB: rotl_b_2_rd/, 'right error';
+  };
+
+  subtest 'ROTL.W' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x12, 0x90));
+    throws_ok { $cpu->reset->step } qr/STUB: rotl_w_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x12, 0xD0));
+    throws_ok { $cpu->reset->step } qr/STUB: rotl_w_2_rd/, 'right error';
+  };
+
+  subtest 'ROTL.L' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x12, 0xB0));
+    throws_ok { $cpu->reset->step } qr/STUB: rotl_l_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x12, 0xF0));
+    throws_ok { $cpu->reset->step } qr/STUB: rotl_l_2_erd/, 'right error';
+  };
+};
+
 done_testing;
