@@ -351,6 +351,11 @@ foreach my $name (qw[
   stm_l_OPern_M_ernP1CP_AMsp
   stm_l_OPern_M_ernP2CP_AMsp
   stm_l_OPern_M_ernP3CP_AMsp
+  sub_b_rs_rd
+  sub_l_ers_erd
+  sub_l_xx32_erd
+  sub_w_rs_rd
+  sub_w_xx16_rd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -412,6 +417,8 @@ sub _handlers {
       0x0E00_0000_0000_0000 => \&_op_addx_b_rs_rd,
       0x1400_0000_0000_0000 => \&_op_or_b_rs_rd,
       0x1600_0000_0000_0000 => \&_op_and_b_rs_rd,
+      0x1800_0000_0000_0000 => \&_op_sub_b_rs_rd,
+      0x1900_0000_0000_0000 => \&_op_sub_w_rs_rd,
       0x1C00_0000_0000_0000 => \&_op_cmp_b_rs_rd,
       0x1D00_0000_0000_0000 => \&_op_cmp_w_rs_rd,
       0x4000_0000_0000_0000 => \&_op_bcc_bra_d8,
@@ -511,6 +518,7 @@ sub _handlers {
     handler_for => {
       0x0A80_0000_0000_0000 => \&_op_add_l_ers_erd,
       0x0F80_0000_0000_0000 => \&_op_mov_l_ers_erd,
+      0x1A80_0000_0000_0000 => \&_op_sub_l_ers_erd,
       0x1F80_0000_0000_0000 => \&_op_cmp_l_ers_erd,
     },
   }, {
@@ -619,6 +627,7 @@ sub _handlers {
       0x7900_0000_0000_0000 => \&_op_mov_w_xx16_rd,
       0x7910_0000_0000_0000 => \&_op_add_w_xx16_rd,
       0x7920_0000_0000_0000 => \&_op_cmp_w_xx16_rd,
+      0x7930_0000_0000_0000 => \&_op_sub_w_xx16_rd,
       0x7940_0000_0000_0000 => \&_op_or_w_xx16_rd,
       0x7960_0000_0000_0000 => \&_op_and_w_xx16_rd,
     },
@@ -655,6 +664,7 @@ sub _handlers {
       0x7A00_0000_0000_0000 => \&_op_mov_l_xx32_rd,
       0x7A10_0000_0000_0000 => \&_op_add_l_xx32_erd,
       0x7A20_0000_0000_0000 => \&_op_cmp_l_xx32_erd,
+      0x7A30_0000_0000_0000 => \&_op_sub_l_xx32_erd,
       0x7A40_0000_0000_0000 => \&_op_or_l_xx32_erd,
       0x7A60_0000_0000_0000 => \&_op_and_l_xx32_erd,
     },

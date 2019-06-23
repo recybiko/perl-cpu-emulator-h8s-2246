@@ -1268,4 +1268,27 @@ subtest 'STM' => sub {
     'right error';
 };
 
+subtest 'SUB' => sub {
+  subtest 'SUB.B' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x18, 0x08));
+    throws_ok { $cpu->reset->step } qr/STUB: sub_b_rs_rd/, 'right error';
+  };
+
+  subtest 'SUB.W' => sub {
+    $cpu->memory->from_string(pack('NC2S>', 4, 0x79, 0x30, 0xFFFF));
+    throws_ok { $cpu->reset->step } qr/STUB: sub_w_xx16_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x19, 0x08));
+    throws_ok { $cpu->reset->step } qr/STUB: sub_w_rs_rd/, 'right error';
+  };
+
+  subtest 'SUB.L' => sub {
+    $cpu->memory->from_string(pack('NC2N', 4, 0x7A, 0x30, 0xFFFF_FFFF));
+    throws_ok { $cpu->reset->step } qr/STUB: sub_l_xx32_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x1A, 0x80));
+    throws_ok { $cpu->reset->step } qr/STUB: sub_l_ers_erd/, 'right error';
+  };
+};
+
 done_testing;
