@@ -1091,4 +1091,30 @@ throws_ok { $cpu->reset->step } qr/STUB: rte/, 'right error';
 $cpu->memory->from_string(pack('NC2', 4, 0x54, 0x70));
 throws_ok { $cpu->reset->step } qr/STUB: rts/, 'right error';
 
+subtest 'SHAL' => sub {
+  subtest 'SHAL.B' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x10, 0x80));
+    throws_ok { $cpu->reset->step } qr/STUB: shal_b_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x10, 0xC0));
+    throws_ok { $cpu->reset->step } qr/STUB: shal_b_2_rd/, 'right error';
+  };
+
+  subtest 'SHAL.W' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x10, 0x90));
+    throws_ok { $cpu->reset->step } qr/STUB: shal_w_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x10, 0xD0));
+    throws_ok { $cpu->reset->step } qr/STUB: shal_w_2_rd/, 'right error';
+  };
+
+  subtest 'SHAL.L' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x10, 0xB0));
+    throws_ok { $cpu->reset->step } qr/STUB: shal_l_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x10, 0xF0));
+    throws_ok { $cpu->reset->step } qr/STUB: shal_l_2_erd/, 'right error';
+  };
+};
+
 done_testing;

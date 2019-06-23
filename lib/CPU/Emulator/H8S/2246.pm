@@ -309,6 +309,12 @@ foreach my $name (qw[
   rotxr_w_rd
   rte
   rts
+  shal_b_2_rd
+  shal_b_rd
+  shal_l_2_erd
+  shal_l_erd
+  shal_w_2_rd
+  shal_w_rd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -520,6 +526,10 @@ sub _handlers {
       0x0B50_0000_0000_0000 => \&_op_inc_w_1_rd,
       0x0BD0_0000_0000_0000 => \&_op_inc_w_2_rd,
       0x0F00_0000_0000_0000 => \&_op_daa_b_rd,
+      0x1080_0000_0000_0000 => \&_op_shal_b_rd,
+      0x1090_0000_0000_0000 => \&_op_shal_w_rd,
+      0x10C0_0000_0000_0000 => \&_op_shal_b_2_rd,
+      0x10D0_0000_0000_0000 => \&_op_shal_w_2_rd,
       0x1200_0000_0000_0000 => \&_op_rotxl_b_rd,
       0x1210_0000_0000_0000 => \&_op_rotxl_w_rd,
       0x1240_0000_0000_0000 => \&_op_rotxl_b_2_rd,
@@ -570,6 +580,8 @@ sub _handlers {
       0x0B80_0000_0000_0000 => \&_op_adds_l_2_erd,
       0x0B90_0000_0000_0000 => \&_op_adds_l_4_erd,
       0x0BF0_0000_0000_0000 => \&_op_inc_l_2_erd,
+      0x10B0_0000_0000_0000 => \&_op_shal_l_erd,
+      0x10F0_0000_0000_0000 => \&_op_shal_l_2_erd,
       0x1230_0000_0000_0000 => \&_op_rotxl_l_erd,
       0x1270_0000_0000_0000 => \&_op_rotxl_l_2_erd,
       0x12B0_0000_0000_0000 => \&_op_rotl_l_erd,
