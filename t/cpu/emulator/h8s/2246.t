@@ -607,4 +607,12 @@ subtest 'EEPMOV' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: eepmov_w/, 'right error';
 };
 
+subtest 'EXTS' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x17, 0xD0));
+  throws_ok { $cpu->reset->step } qr/STUB: exts_w_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x17, 0xF0));
+  throws_ok { $cpu->reset->step } qr/STUB: exts_l_erd/, 'right error';
+};
+
 done_testing;
