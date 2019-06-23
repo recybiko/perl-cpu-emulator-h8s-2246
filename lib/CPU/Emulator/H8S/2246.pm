@@ -193,6 +193,9 @@ foreach my $name (qw[
   inc_l_2_erd
   inc_w_1_rd
   inc_w_2_rd
+  jmp_Aaa24
+  jmp_AAaa8
+  jmp_Aern
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -265,6 +268,8 @@ sub _handlers {
       0x4F00_0000_0000_0000 => \&_op_bcc_ble_d8,
       0x5100_0000_0000_0000 => \&_op_divxu_b_rs_rd,
       0x5500_0000_0000_0000 => \&_op_bsr_d8,
+      0x5A00_0000_0000_0000 => \&_op_jmp_Aaa24,
+      0x5B00_0000_0000_0000 => \&_op_jmp_AAaa8,
       0x6000_0000_0000_0000 => \&_op_bset_b_rn_rd,
       0x6100_0000_0000_0000 => \&_op_bnot_b_rn_rd,
       0x6200_0000_0000_0000 => \&_op_bclr_b_rn_rd,
@@ -325,6 +330,11 @@ sub _handlers {
     handler_for => {
       0x0A80_0000_0000_0000 => \&_op_add_l_ers_erd,
       0x1F80_0000_0000_0000 => \&_op_cmp_l_ers_erd,
+    },
+  }, {
+    mask => 0xFF8F_0000_0000_0000,
+    handler_for => {
+      0x5900_0000_0000_0000 => \&_op_jmp_Aern,
     },
   }, {
     mask => 0xFF8F_FF0F_0000_0000,

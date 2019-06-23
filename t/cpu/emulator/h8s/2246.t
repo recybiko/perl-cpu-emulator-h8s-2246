@@ -646,4 +646,15 @@ subtest 'INC' => sub {
   };
 };
 
+subtest 'JMP' => sub {
+  $cpu->memory->from_string(pack('NC2CS>', 4, 0x5A, 0, 0));
+  throws_ok { $cpu->reset->step } qr/STUB: jmp_Aaa24/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x5B, 0));
+  throws_ok { $cpu->reset->step } qr/STUB: jmp_AAaa8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x59, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: jmp_Aern/, 'right error';
+};
+
 done_testing;
