@@ -973,4 +973,12 @@ subtest 'OR' => sub {
   };
 };
 
+subtest 'ORC' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x04, 0));
+  throws_ok { $cpu->reset->step } qr/STUB: orc_b_xx8_ccr/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x41, 0x04, 0));
+  throws_ok { $cpu->reset->step } qr/STUB: orc_b_xx8_exr/, 'right error';
+};
+
 done_testing;
