@@ -947,4 +947,30 @@ subtest 'NOT' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: not_w_rd/, 'right error';
 };
 
+subtest 'OR' => sub {
+  subtest 'OR.B' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0xC0, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: or_b_xx8_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x14, 0x08));
+    throws_ok { $cpu->reset->step } qr/STUB: or_b_rs_rd/, 'right error';
+  };
+
+  subtest 'OR.W' => sub {
+    $cpu->memory->from_string(pack('NC2S>', 4, 0x79, 0x40, 0xFFFF));
+    throws_ok { $cpu->reset->step } qr/STUB: or_w_xx16_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x64, 0x08));
+    throws_ok { $cpu->reset->step } qr/STUB: or_w_rs_rd/, 'right error';
+  };
+
+  subtest 'OR.L' => sub {
+    $cpu->memory->from_string(pack('NC2N', 4, 0x7A, 0x40, 0xFFFF_FFFF));
+    throws_ok { $cpu->reset->step } qr/STUB: or_l_xx32_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4', 4, 0x01, 0xF0, 0x64, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: or_l_ers_erd/, 'right error';
+  };
+};
+
 done_testing;
