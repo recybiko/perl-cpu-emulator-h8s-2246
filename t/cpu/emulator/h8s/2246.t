@@ -936,4 +936,15 @@ subtest 'NEG' => sub {
 $cpu->memory->from_string(pack('NC2', 4, 0x00, 0x00));
 throws_ok { $cpu->reset->step } qr/STUB: nop/, 'right error';
 
+subtest 'NOT' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x17, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: not_b_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x17, 0x30));
+  throws_ok { $cpu->reset->step } qr/STUB: not_l_erd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x17, 0x10));
+  throws_ok { $cpu->reset->step } qr/STUB: not_w_rd/, 'right error';
+};
+
 done_testing;

@@ -272,6 +272,9 @@ foreach my $name (qw[
   neg_l_erd
   neg_w_rd
   nop
+  not_b_rd
+  not_l_erd
+  not_w_rd
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -479,6 +482,8 @@ sub _handlers {
       0x0B50_0000_0000_0000 => \&_op_inc_w_1_rd,
       0x0BD0_0000_0000_0000 => \&_op_inc_w_2_rd,
       0x0F00_0000_0000_0000 => \&_op_daa_b_rd,
+      0x1700_0000_0000_0000 => \&_op_not_b_rd,
+      0x1710_0000_0000_0000 => \&_op_not_w_rd,
       0x1750_0000_0000_0000 => \&_op_extu_w_rd,
       0x1780_0000_0000_0000 => \&_op_neg_b_rd,
       0x1790_0000_0000_0000 => \&_op_neg_w_rd,
@@ -510,6 +515,7 @@ sub _handlers {
       0x0B80_0000_0000_0000 => \&_op_adds_l_2_erd,
       0x0B90_0000_0000_0000 => \&_op_adds_l_4_erd,
       0x0BF0_0000_0000_0000 => \&_op_inc_l_2_erd,
+      0x1730_0000_0000_0000 => \&_op_not_l_erd,
       0x1770_0000_0000_0000 => \&_op_extu_l_erd,
       0x17B0_0000_0000_0000 => \&_op_neg_l_erd,
       0x17F0_0000_0000_0000 => \&_op_exts_l_erd,
