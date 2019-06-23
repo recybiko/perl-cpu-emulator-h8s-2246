@@ -906,4 +906,12 @@ throws_ok { $cpu->reset->step } qr/STUB: movfpe_b_Aaa16_rd/, 'right error';
 $cpu->memory->from_string(pack('NC2', 4, 0x6A, 0xC0));
 throws_ok { $cpu->reset->step } qr/STUB: movtpe_b_rs_Aaa16/, 'right error';
 
+subtest 'MULXS' => sub {
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0xC0, 0x50, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: mulxs_b_rs_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0xC0, 0x52, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: mulxs_w_rs_erd/, 'right error';
+};
+
 done_testing;
