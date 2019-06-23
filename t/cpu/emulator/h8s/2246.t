@@ -668,4 +668,66 @@ subtest 'JSR' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: jsr_Aern/, 'right error';
 };
 
+subtest 'LDC' => sub {
+  subtest 'LDC.B' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x03, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_b_rs_ccr/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x03, 0x10));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_b_rs_exr/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x07, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_b_xx8_ccr/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x41, 0x07, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_b_xx8_exr/, 'right error';
+  };
+
+  subtest 'LDC.W' => sub {
+    $cpu->memory->from_string(pack('NC4S>', 4, 0x01, 0x40, 0x6B, 0x00, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_w_Aaa16_ccr/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4S>', 4, 0x01, 0x41, 0x6B, 0x00, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_w_Aaa16_exr/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4N', 4, 0x01, 0x40, 0x6B, 0x20, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_w_Aaa32_ccr/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4N', 4, 0x01, 0x41, 0x6B, 0x20, 0));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_w_Aaa32_exr/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x40, 0x69, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_w_Aers_ccr/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x41, 0x69, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_w_Aers_exr/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x40, 0x6D, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_w_AersP_ccr/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x41, 0x6D, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_w_AersP_exr/, 'right error';
+
+    $cpu->memory->from_string(pack('NC4S>', 4, 0x01, 0x40, 0x6F, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_w_AOPd16_ersCP_ccr/,
+      'right error';
+
+    $cpu->memory->from_string(pack('NC4S>', 4, 0x01, 0x41, 0x6F, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_w_AOPd16_ersCP_exr/,
+      'right error';
+
+    $cpu->memory->from_string(
+      pack('NC6N', 4, 0x01, 0x40, 0x78, 0x00, 0x6B, 0x20, 0),
+    );
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_w_AOPd32_ersCP_ccr/,
+      'right error';
+
+    $cpu->memory->from_string(
+      pack('NC6N', 4, 0x01, 0x41, 0x78, 0x00, 0x6B, 0x20, 0),
+    );
+    throws_ok { $cpu->reset->step } qr/STUB: ldc_w_AOPd32_ersCP_exr/,
+      'right error';
+  };
+};
+
 done_testing;

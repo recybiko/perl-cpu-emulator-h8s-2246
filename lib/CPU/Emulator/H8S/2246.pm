@@ -199,6 +199,22 @@ foreach my $name (qw[
   jsr_Aaa24
   jsr_AAaa8
   jsr_Aern
+  ldc_b_rs_ccr
+  ldc_b_rs_exr
+  ldc_b_xx8_ccr
+  ldc_b_xx8_exr
+  ldc_w_Aaa16_ccr
+  ldc_w_Aaa16_exr
+  ldc_w_Aaa32_ccr
+  ldc_w_Aaa32_exr
+  ldc_w_Aers_ccr
+  ldc_w_Aers_exr
+  ldc_w_AersP_ccr
+  ldc_w_AersP_exr
+  ldc_w_AOPd16_ersCP_ccr
+  ldc_w_AOPd16_ersCP_exr
+  ldc_w_AOPd32_ersCP_ccr
+  ldc_w_AOPd32_ersCP_exr
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -247,6 +263,7 @@ sub _handlers {
     mask => 0xFF00_0000_0000_0000,
     handler_for => {
       0x0600_0000_0000_0000 => \&_op_andc_b_xx8_ccr,
+      0x0700_0000_0000_0000 => \&_op_ldc_b_xx8_ccr,
       0x0800_0000_0000_0000 => \&_op_add_b_rs_rd,
       0x0900_0000_0000_0000 => \&_op_add_w_rs_rd,
       0x0E00_0000_0000_0000 => \&_op_addx_b_rs_rd,
@@ -371,6 +388,8 @@ sub _handlers {
   }, {
     mask => 0xFFF0_0000_0000_0000,
     handler_for => {
+      0x0300_0000_0000_0000 => \&_op_ldc_b_rs_ccr,
+      0x0310_0000_0000_0000 => \&_op_ldc_b_rs_exr,
       0x0A00_0000_0000_0000 => \&_op_inc_b_rd,
       0x0B50_0000_0000_0000 => \&_op_inc_w_1_rd,
       0x0BD0_0000_0000_0000 => \&_op_inc_w_2_rd,
@@ -478,6 +497,7 @@ sub _handlers {
     mask => 0xFFFF_FF00_0000_0000,
     handler_for => {
       0x0141_0600_0000_0000 => \&_op_andc_b_xx8_exr,
+      0x0141_0700_0000_0000 => \&_op_ldc_b_xx8_exr,
       0x01D0_5100_0000_0000 => \&_op_divxs_b_rs_rd,
     },
   }, {
@@ -491,8 +511,28 @@ sub _handlers {
       0x01F0_6600_0000_0000 => \&_op_and_l_ers_erd,
     },
   }, {
+    mask => 0xFFFF_FF8F_0000_0000,
+    handler_for => {
+      0x0140_6900_0000_0000 => \&_op_ldc_w_Aers_ccr,
+      0x0140_6D00_0000_0000 => \&_op_ldc_w_AersP_ccr,
+      0x0140_6F00_0000_0000 => \&_op_ldc_w_AOPd16_ersCP_ccr,
+      0x0141_6900_0000_0000 => \&_op_ldc_w_Aers_exr,
+      0x0141_6D00_0000_0000 => \&_op_ldc_w_AersP_exr,
+      0x0141_6F00_0000_0000 => \&_op_ldc_w_AOPd16_ersCP_exr,
+    },
+  }, {
+    mask => 0xFFFF_FF8F_FFFF_0000,
+    handler_for => {
+      0x0140_7800_6B20_0000 => \&_op_ldc_w_AOPd32_ersCP_ccr,
+      0x0141_7800_6B20_0000 => \&_op_ldc_w_AOPd32_ersCP_exr,
+    },
+  }, {
     mask => 0xFFFF_FFFF_0000_0000,
     handler_for => {
+      0x0140_6B00_0000_0000 => \&_op_ldc_w_Aaa16_ccr,
+      0x0140_6B20_0000_0000 => \&_op_ldc_w_Aaa32_ccr,
+      0x0141_6B00_0000_0000 => \&_op_ldc_w_Aaa16_exr,
+      0x0141_6B20_0000_0000 => \&_op_ldc_w_Aaa32_exr,
       0x7B5C_598F_0000_0000 => \&_op_eepmov_b,
       0x7BD4_598F_0000_0000 => \&_op_eepmov_w,
     },
