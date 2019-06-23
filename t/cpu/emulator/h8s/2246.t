@@ -657,4 +657,15 @@ subtest 'JMP' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: jmp_Aern/, 'right error';
 };
 
+subtest 'JSR' => sub {
+  $cpu->memory->from_string(pack('NC2CS>', 4, 0x5E, 0, 0));
+  throws_ok { $cpu->reset->step } qr/STUB: jsr_Aaa24/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x5F, 0));
+  throws_ok { $cpu->reset->step } qr/STUB: jsr_AAaa8/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x5D, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: jsr_Aern/, 'right error';
+};
+
 done_testing;
