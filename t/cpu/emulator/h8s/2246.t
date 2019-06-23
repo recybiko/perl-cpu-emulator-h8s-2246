@@ -623,4 +623,27 @@ subtest 'EXTU' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: extu_l_erd/, 'right error';
 };
 
+subtest 'INC' => sub {
+  subtest 'INC.B' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x0A, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: inc_b_rd/, 'right error';
+  };
+
+  subtest 'INC.W' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x0B, 0x50));
+    throws_ok { $cpu->reset->step } qr/STUB: inc_w_1_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x0B, 0xD0));
+    throws_ok { $cpu->reset->step } qr/STUB: inc_w_2_rd/, 'right error';
+  };
+
+  subtest 'INC.L' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x0B, 0x70));
+    throws_ok { $cpu->reset->step } qr/STUB: inc_l_1_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x0B, 0xF0));
+    throws_ok { $cpu->reset->step } qr/STUB: inc_l_2_erd/, 'right error';
+  };
+};
+
 done_testing;
