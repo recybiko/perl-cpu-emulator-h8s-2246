@@ -1254,4 +1254,18 @@ subtest 'STC' => sub {
   };
 };
 
+subtest 'STM' => sub {
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x10, 0x6D, 0xF0));
+  throws_ok { $cpu->reset->step } qr/STUB: stm_l_OPern_M_ernP1CP_AMsp/,
+    'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x20, 0x6D, 0xF0));
+  throws_ok { $cpu->reset->step } qr/STUB: stm_l_OPern_M_ernP2CP_AMsp/,
+    'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0x30, 0x6D, 0xF0));
+  throws_ok { $cpu->reset->step } qr/STUB: stm_l_OPern_M_ernP3CP_AMsp/,
+    'right error';
+};
+
 done_testing;

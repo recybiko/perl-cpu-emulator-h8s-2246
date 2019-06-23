@@ -348,6 +348,9 @@ foreach my $name (qw[
   stc_w_exr_AOPd32_erdCP
   stc_w_exr_Aerd
   stc_w_exr_AMerd
+  stm_l_OPern_M_ernP1CP_AMsp
+  stm_l_OPern_M_ernP2CP_AMsp
+  stm_l_OPern_M_ernP3CP_AMsp
 ]) {
   monkey_patch __PACKAGE__, "_op_$name", sub {
     croak "STUB: $name";
@@ -797,8 +800,11 @@ sub _handlers {
       0x0100_6B80_0000_0000 => \&_op_mov_l_ers_Aaa16,
       0x0100_6BA0_0000_0000 => \&_op_mov_l_ers_Aaa32,
       0x0110_6D70_0000_0000 => \&_op_ldm_l_AspP_OPernMernP1CP,
+      0x0110_6DF0_0000_0000 => \&_op_stm_l_OPern_M_ernP1CP_AMsp,
       0x0120_6D70_0000_0000 => \&_op_ldm_l_AspP_OPernMernP2CP,
+      0x0120_6DF0_0000_0000 => \&_op_stm_l_OPern_M_ernP2CP_AMsp,
       0x0130_6D70_0000_0000 => \&_op_ldm_l_AspP_OPernMernP3CP,
+      0x0130_6DF0_0000_0000 => \&_op_stm_l_OPern_M_ernP3CP_AMsp,
     },
   }, {
     mask => 0xFFFF_FFFF_0000_0000,
