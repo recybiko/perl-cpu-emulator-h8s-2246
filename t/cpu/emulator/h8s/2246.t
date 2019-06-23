@@ -1169,4 +1169,30 @@ subtest 'SHLL' => sub {
   };
 };
 
+subtest 'SHLR' => sub {
+  subtest 'SHLR.B' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x11, 0x00));
+    throws_ok { $cpu->reset->step } qr/STUB: shlr_b_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x11, 0x40));
+    throws_ok { $cpu->reset->step } qr/STUB: shlr_b_2_rd/, 'right error';
+  };
+
+  subtest 'SHLR.W' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x11, 0x10));
+    throws_ok { $cpu->reset->step } qr/STUB: shlr_w_rd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x11, 0x50));
+    throws_ok { $cpu->reset->step } qr/STUB: shlr_w_2_rd/, 'right error';
+  };
+
+  subtest 'SHLR.L' => sub {
+    $cpu->memory->from_string(pack('NC2', 4, 0x11, 0x30));
+    throws_ok { $cpu->reset->step } qr/STUB: shlr_l_erd/, 'right error';
+
+    $cpu->memory->from_string(pack('NC2', 4, 0x11, 0x70));
+    throws_ok { $cpu->reset->step } qr/STUB: shlr_l_2_erd/, 'right error';
+  };
+};
+
 done_testing;
