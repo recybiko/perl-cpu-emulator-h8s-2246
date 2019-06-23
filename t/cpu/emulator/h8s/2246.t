@@ -583,4 +583,12 @@ subtest 'DEC' => sub {
   };
 };
 
+subtest 'DIVXS' => sub {
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0xD0, 0x51, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: divxs_b_rs_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC4', 4, 0x01, 0xD0, 0x53, 0x00));
+  throws_ok { $cpu->reset->step } qr/STUB: divxs_w_rs_erd/, 'right error';
+};
+
 done_testing;
