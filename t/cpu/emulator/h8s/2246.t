@@ -922,4 +922,15 @@ subtest 'MULXU' => sub {
   throws_ok { $cpu->reset->step } qr/STUB: mulxu_w_rs_erd/, 'right error';
 };
 
+subtest 'NEG' => sub {
+  $cpu->memory->from_string(pack('NC2', 4, 0x17, 0x80));
+  throws_ok { $cpu->reset->step } qr/STUB: neg_b_rd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x17, 0xB0));
+  throws_ok { $cpu->reset->step } qr/STUB: neg_l_erd/, 'right error';
+
+  $cpu->memory->from_string(pack('NC2', 4, 0x17, 0x90));
+  throws_ok { $cpu->reset->step } qr/STUB: neg_w_rd/, 'right error';
+};
+
 done_testing;
