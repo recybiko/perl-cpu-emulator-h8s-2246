@@ -1085,4 +1085,10 @@ subtest 'ROTXR' => sub {
   };
 };
 
+$cpu->memory->from_string(pack('NC2', 4, 0x56, 0x70));
+throws_ok { $cpu->reset->step } qr/STUB: rte/, 'right error';
+
+$cpu->memory->from_string(pack('NC2', 4, 0x54, 0x70));
+throws_ok { $cpu->reset->step } qr/STUB: rts/, 'right error';
+
 done_testing;
